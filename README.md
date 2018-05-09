@@ -5,7 +5,7 @@
 [![Total Downloads](https://poser.pugx.org/laraplug/order-module/d/total.svg?format=flat-square)](https://packagist.org/packages/laraplug/order-module)
 [![PHP7 Compatible](https://img.shields.io/badge/php-7-green.svg?style=flat-square)](https://packagist.org/packages/laraplug/order-module)
 
-# Laraplug Product
+# Laraplug Order
 
 Integrated with [laraplug/product-module](https://github.com/laraplug/product-module)
 
