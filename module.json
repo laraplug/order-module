@@ -1,0 +1,18 @@
+{
+    "name": "Order",
+    "alias": "order",
+    "description": "Managing orders",
+    "keywords": [],
+    "version": "0.1.0",
+    "active": 1,
+    "order": 1,
+    "providers": [
+        "Modules\\Order\\Providers\\OrderServiceProvider",
+        "Modules\\Order\\Providers\\RouteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+
+    ],
+    "requires": []
+}
