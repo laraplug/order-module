@@ -109,7 +109,6 @@
       $interpolateProvider.startSymbol('{%');
       $interpolateProvider.endSymbol('%}');
       $httpProvider.defaults.headers.common['Authorization'] = AuthorizationHeaderValue;
-      console.log(AuthorizationHeaderValue);
     })
     .controller('ItemController', function($scope, $http) {
 

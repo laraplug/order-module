@@ -16,12 +16,16 @@ class OrderItemOption extends Model implements ShopProductOptionInterface
         'value',
     ];
     protected $appends = [
+        'name',
         'type',
         'sort_order',
         'required',
         'values',
         'is_collection',
         'is_system',
+    ];
+    protected $hidden = [
+        'product',
     ];
 
     public function product()
