@@ -40,12 +40,12 @@ class OrderItemOption extends Model implements ShopProductOptionInterface
 
     public function getNameAttribute(): string
     {
-        return $this->getProductOption()->name;
+        return $this->getProductOption()->name ?: '';
     }
 
     public function getTypeAttribute(): string
     {
-        return $this->getProductOption()->type;
+        return $this->getProductOption()->type ?: '';
     }
 
     public function getSortOrderAttribute(): int
