@@ -38,12 +38,12 @@ class OrderItemOption extends Model implements ShopProductOptionInterface
         return $this->product->options->where('slug', $this->slug)->first() ?: new Option();
     }
 
-    public function getNameAttribute(): string
+    public function getNameAttribute()
     {
         return $this->getProductOption()->name ?: '';
     }
 
-    public function getTypeAttribute(): string
+    public function getTypeAttribute()
     {
         return $this->getProductOption()->type ?: '';
     }
