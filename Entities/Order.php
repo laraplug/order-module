@@ -52,7 +52,10 @@ class Order extends Model implements ShopOrderInterface
         'items',
     ];
     protected $appends = [
+        'shop_name',
+        'name',
         'status',
+        'currency',
     ];
 
     /**
@@ -290,6 +293,16 @@ class Order extends Model implements ShopOrderInterface
             $this->attributes['status_id'] = $status->id;
             $this->save();
         }
+    }
+
+    public function getShopNameAttribute()
+    {
+        return $this->shop->name;
+    }
+
+    public function getCurrencyAttribute()
+    {
+        return currency($this->currency_code)->toArray()[$this->currency_code];
     }
 
     /**

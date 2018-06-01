@@ -11,93 +11,30 @@
 @stop
 
 @section('content')
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="btn-group pull-right" style="margin: 0 15px 15px 0;">
-                    <a href="{{ route('admin.order.order.create') }}" class="btn btn-primary btn-flat" style="padding: 4px 10px;">
-                        <i class="fa fa-pencil"></i> {{ trans('order::orders.button.create order') }}
-                    </a>
-                </div>
+    <div class="row" ng-app="orders" ng-controller="OrderController as vm">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <div class="box-header">
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="table-responsive">
+              <table datatable dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="data-table table table-bordered table-hover" width="100%">
+              </table>
+              <!-- /.box-body -->
             </div>
-            <div class="box box-primary">
-                <div class="box-header">
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <div class="table-responsive">
-                        <table class="data-table table table-bordered table-hover">
-                            <thead>
-                            <tr>
-                                <th width="5%">#</th>
-                                <th width="10%">{{ trans('order::orders.table.shop_name') }}</th>
-                                <th width="20%">{{ trans('order::orders.table.name') }}</th>
-                                <th width="10%">{{ trans('order::orders.table.payment_name') }}</th>
-                                <th width="10%">{{ trans('order::orders.table.total') }}</th>
-                                <th width="15%">{{ trans('order::orders.table.status') }}</th>
-                                <th width="10%">{{ trans('core::core.table.created at') }}</th>
-                                <th width="10%" data-sortable="false">{{ trans('core::core.table.actions') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php if (isset($orders)): ?>
-                            <?php foreach ($orders as $order): ?>
-                            <tr>
-                                <td>
-                                    {{ $order->id }}
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.shop.shop.edit', [$order->shop_id]) }}">
-                                        {{ $order->shop->name }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.order.order.show', [$order->id]) }}">
-                                        {{ $order->name }}
-                                    </a>
-                                </td>
-                                <td>
-                                    {{ $order->payment_name }}
-                                </td>
-                                <td>
-                                    {{ Shop::money($order->total) }}
-                                </td>
-                                <td>
-                                    {{ $order->status->name }}
-                                </td>
-                                <td>
-                                    {{ $order->created_at }}
-                                </td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a href="{{ route('admin.order.order.show', [$order->id]) }}" class="btn btn-primary btn-flat"><i class="fa fa-eye"></i></a>
-                                        <a href="{{ route('admin.order.order.edit', [$order->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                            <?php endif; ?>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>#</th>
-                                <th>{{ trans('order::orders.table.shop_name') }}</th>
-                                <th>{{ trans('order::orders.table.name') }}</th>
-                                <th>{{ trans('order::orders.table.payment_name') }}</th>
-                                <th>{{ trans('order::orders.table.total') }}</th>
-                                <th>{{ trans('order::orders.table.status') }}</th>
-                                <th>{{ trans('core::core.table.created at') }}</th>
-                                <th>{{ trans('core::core.table.actions') }}</th>
-                            </tr>
-                            </tfoot>
-                        </table>
-                        <!-- /.box-body -->
-                    </div>
-                </div>
-                <!-- /.box -->
-            </div>
+          </div>
+          <!-- /.box -->
         </div>
+      </div>
+
+      <script type="text/ng-template" id="actionColumn.tmpl">
+          <a ng-href="{% vm.route('admin.order.order.show', [row.id]) %}" class="btn btn-primary btn-flat"><i class="fa fa-eye"></i></a>
+          <a ng-href="{% vm.route('admin.order.order.edit', [row.id]) %}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+      </script>
+
     </div>
+
     @include('core::partials.delete-modal')
 @stop
 
@@ -112,30 +49,61 @@
 @stop
 
 @push('js-stack')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-sanitize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/angular-datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+
     <script type="text/javascript">
-        $( document ).ready(function() {
-            $(document).keypressAction({
-                actions: [
-                    { key: 'c', route: "<?= route('admin.order.order.create') ?>" }
-                ]
+
+    angular.module('orders', [
+        'ngSanitize',
+        'datatables',
+        'ui.bootstrap'
+    ])
+    .config(function($interpolateProvider, $httpProvider) {
+      $interpolateProvider.startSymbol('{%');
+      $interpolateProvider.endSymbol('%}');
+      $httpProvider.defaults.headers.common['Authorization'] = AuthorizationHeaderValue;
+    })
+    .controller('OrderController', function($scope, $http, $compile, $templateCache, DTOptionsBuilder, DTColumnBuilder, $filter) {
+        var vm = this;
+
+        vm.dtOptions = DTOptionsBuilder.newOptions()
+            .withOption('ajax', route('api.order.orders.datatable').toString())
+            .withLanguageSource('{{ Module::asset("core:js/vendor/datatables/".locale().".json") }}')
+            .withDataProp('data')
+            .withOption('processing', true)
+            .withOption('serverSide', true)
+            .withPaginationType('full_numbers')
+            .withOption('rowCallback', function(row, data) {
+                // Angular scope데이터 적용
+                var newScope = $scope.$new();
+                newScope.row = data;
+                $compile(angular.element(row).contents())(newScope);
             });
-        });
-    </script>
-    <?php $locale = locale(); ?>
-    <script type="text/javascript">
-        $(function () {
-            $('.data-table').dataTable({
-                "paginate": true,
-                "lengthChange": true,
-                "filter": true,
-                "sort": true,
-                "info": true,
-                "autoWidth": true,
-                "order": [[ 0, "desc" ]],
-                "language": {
-                    "url": '<?php echo Module::asset("core:js/vendor/datatables/{$locale}.json") ?>'
-                }
-            });
-        });
+
+        vm.dtColumns = [
+            DTColumnBuilder.newColumn('id', 'ID'),
+            DTColumnBuilder.newColumn('shop_name', '{{ trans('order::orders.table.shop_name') }}'),
+            DTColumnBuilder.newColumn('name', '{{ trans('order::orders.table.name') }}'),
+            DTColumnBuilder.newColumn('payment_name', '{{ trans('order::orders.table.payment_name') }}'),
+            DTColumnBuilder.newColumn('total', '{{ trans('order::orders.table.total') }}').renderWith(function(data, type, full) {
+                console.log(full);
+                return $filter('currency')(data, '￦', 0);
+            }),
+            DTColumnBuilder.newColumn('status.name', '{{ trans('order::orders.table.status') }}'),
+            DTColumnBuilder.newColumn('created_at', '{{ trans('core::core.table.created at') }}'),
+            DTColumnBuilder.newColumn('id', '{{ trans('core::core.table.actions') }}').renderWith(function() {
+                //템플릿 로드
+                return $templateCache.get('actionColumn.tmpl');
+            }).withOption('width', '10%')
+        ];
+
+        // 라우팅함수 추가
+        vm.route = window.route;
+    });
+
     </script>
 @endpush
