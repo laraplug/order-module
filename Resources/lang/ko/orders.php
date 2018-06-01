@@ -7,6 +7,7 @@ return [
     'destroy resource' => '주문 삭제',
     'title' => [
         'orders' => '주문',
+        'order management' => '주문관리',
         'create order' => '주문 생성',
         'edit order' => '주문 수정',
         'view order' => '주문 보기',

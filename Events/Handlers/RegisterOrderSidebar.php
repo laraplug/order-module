@@ -38,41 +38,42 @@ class RegisterOrderSidebar implements \Maatwebsite\Sidebar\SidebarExtender
     {
         $menu->group(config('asgard.order.config.sidebar-group'), function (Group $group) {
             $group->item(trans('order::orders.title.orders'), function (Item $item) {
-                $item->icon('fa fa-copy');
-                $item->weight(0);
+                $item->icon('fa fa-cubes');
+                $item->weight(config('asgard.order.config.sidebar-weight'));
                 $item->route('admin.order.order.index');
                 $item->authorize(
                     $this->auth->hasAccess('order.orders.index')
                 );
             });
-            $group->item(trans('order::orderstatuses.title.orderstatuses'), function (Item $item) {
-                $item->icon('fa fa-copy');
-                $item->weight(0);
-                $item->route('admin.order.orderstatus.index');
-                $item->authorize(
-                    $this->auth->hasAccess('order.orderstatuses.index')
-                );
+            $group->item(trans('order::orders.title.order management'), function (Item $group) {
+                $group->weight(config('asgard.order.config.sidebar-weight'));
+                $group->item(trans('order::orderstatuses.title.orderstatuses'), function (Item $item) {
+                    $item->icon('fa fa-copy');
+                    $item->weight(0);
+                    $item->route('admin.order.orderstatus.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('order.orderstatuses.index')
+                    );
+                });
+                $group->item(trans('order::transactions.title.transactions'), function (Item $item) {
+                    $item->icon('fa fa-copy');
+                    $item->weight(0);
+                    $item->route('admin.order.transaction.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('order.transactions.index')
+                    );
+                });
+                $group->item(trans('order::transportations.title.transportations'), function (Item $item) {
+                    $item->icon('fa fa-copy');
+                    $item->weight(0);
+                    $item->route('admin.order.transportation.index');
+                    $item->authorize(
+                        $this->auth->hasAccess('order.transportations.index')
+                    );
+                });
             });
-            $group->item(trans('order::transactions.title.transactions'), function (Item $item) {
-                $item->icon('fa fa-copy');
-                $item->weight(0);
-                $item->route('admin.order.transaction.index');
-                $item->authorize(
-                    $this->auth->hasAccess('order.transactions.index')
-                );
-            });
-            $group->item(trans('order::transportations.title.transportations'), function (Item $item) {
-                $item->icon('fa fa-copy');
-                $item->weight(0);
-                $item->route('admin.order.transportation.index');
-                $item->authorize(
-                    $this->auth->hasAccess('order.transportations.index')
-                );
-            });
+
 // append
-
-
-
 
         });
 

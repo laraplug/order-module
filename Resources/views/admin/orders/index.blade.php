@@ -90,7 +90,6 @@
             DTColumnBuilder.newColumn('name', '{{ trans('order::orders.table.name') }}'),
             DTColumnBuilder.newColumn('payment_name', '{{ trans('order::orders.table.payment_name') }}'),
             DTColumnBuilder.newColumn('total', '{{ trans('order::orders.table.total') }}').renderWith(function(data, type, full) {
-                console.log(full);
                 return $filter('currency')(data, '￦', 0);
             }),
             DTColumnBuilder.newColumn('status.name', '{{ trans('order::orders.table.status') }}'),
