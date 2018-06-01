@@ -33,9 +33,7 @@ class OrderController extends AdminBaseController
      */
     public function index()
     {
-        $orders = $this->order->all();
-
-        return view('order::admin.orders.index', compact('orders'));
+        return view('order::admin.orders.index');
     }
 
     /**
