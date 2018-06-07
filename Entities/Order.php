@@ -351,7 +351,9 @@ class Order extends Model implements ShopOrderInterface
             foreach ($item->children as $child) {
                 // 주문아이템 부모id 세팅
                 $child->parent_id = $orderItem->id;
-                $this->items()->create($child->toOrderItemArray($orderItem));
+                $childData = $child->toOrderItemArray($orderItem);
+                $childData['status_id'] = OrderStatus::PENDING;
+                $this->items()->create($childData);
             }
         }
     }
