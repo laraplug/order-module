@@ -35,6 +35,7 @@ class OrderItem extends Model implements ShopItemInterface
     protected $appends = [
         'options',
         'product',
+        'status_name',
     ];
 
     /**
@@ -165,6 +166,14 @@ class OrderItem extends Model implements ShopItemInterface
     public function getShippingMethodAttribute()
     {
         return $this->shipping_method_id ? app(ShippingMethodManager::class)->find($this->shipping_method_id) : null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getStatusNameAttribute()
+    {
+        return $this->status ? $this->status->name : '';
     }
 
     /**
