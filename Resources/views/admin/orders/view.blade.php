@@ -164,9 +164,26 @@
             </div>
         </div>
         <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">상태 정보</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {!! Form::normalSelect('status_id', trans('order::orders.form.status'), $errors, $orderStatuses, $order) !!}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button type="button" id="btnSaveStatus" class="btn btn-primary">저장</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">결제 정보</h3>
+                <h3 class="box-title">결제 정보</h3>
             </div>
             <div class="box-body">
                 <div class="row">
@@ -231,9 +248,34 @@
 @section('footer')
     <a data-toggle="modal" data-target="#keyboardShortcutsModal"><i class="fa fa-keyboard-o"></i></a> &nbsp;
 @stop
-@section('shortcuts')
-    <dl class="dl-horizontal">
-        <dt><code>b</code></dt>
-        <dd>{{ trans('core::core.back to index') }}</dd>
-    </dl>
+
+@section('scripts')
+<script>
+$(function() {
+    $('#btnSaveStatus').click(function() {
+        var statusId = $('select[name=status_id]').val();
+        console.log('statusId', statusId);
+        if(statusId) {
+            $.ajax({
+                type: 'PUT',
+                url: '{{ route('api.order.orders.updateStatus', $order->id) }}',
+                data: {'status_id': statusId},
+                dataType: 'json',
+                success: function(data) {
+                    if(data.errors) {
+                        alert(data.errors);
+                    }
+                    else {
+                        alert(data.message);
+                    }
+                    console.log(data);
+                },
+                error:function (xhr, ajaxOptions, thrownError){
+                }
+            });
+        }
+    });
+});
+
+</script>
 @stop

@@ -34,6 +34,7 @@ return [
         'total_price' => '상품합계',
         'total_shipping' => '배송비',
         'total' => '합계',
+        'status' => '주문상태',
         'payment_gateway' => '결제모듈',
         'payment_method' => '결제수단',
     ],

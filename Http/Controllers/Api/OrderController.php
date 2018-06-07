@@ -2,6 +2,7 @@
 
 namespace Modules\Order\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Order\Entities\Order;
 use Modules\Order\Repositories\OrderRepository;
@@ -49,6 +50,24 @@ class OrderController extends Controller
         return response()->json([
             'errors' => false,
             'data' => $items,
+        ]);
+    }
+
+    /**
+     * 주문상태 저장
+     * @param  Order  $order
+     * @param  Request $request
+     * @return mixed
+     */
+    public function updateStatus(Order $order, Request $request)
+    {
+        $order->status_id = $request->status_id;
+        $order->save();
+
+        return response()->json([
+            'errors' => false,
+            'message' => trans('core::core.messages.resource updated', ['name' => trans('order::orders.title.orders')]),
+            'data' => $order,
         ]);
     }
 }

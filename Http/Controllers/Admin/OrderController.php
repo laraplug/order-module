@@ -5,8 +5,9 @@ namespace Modules\Order\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Shop\Facades\Shop;
-
 use Modules\Order\Entities\Order;
+use Modules\Order\Repositories\OrderStatusRepository;
+
 use Modules\Order\Http\Requests\CreateOrderRequest;
 use Modules\Order\Http\Requests\UpdateOrderRequest;
 use Modules\Order\Repositories\OrderRepository;
@@ -19,11 +20,17 @@ class OrderController extends AdminBaseController
      */
     private $order;
 
-    public function __construct(OrderRepository $order)
+    /**
+     * @var OrderStatusRepository
+     */
+    private $orderstatus;
+
+    public function __construct(OrderRepository $order, OrderStatusRepository $orderstatus)
     {
         parent::__construct();
 
         $this->order = $order;
+        $this->orderstatus = $orderstatus;
     }
 
     /**
@@ -48,7 +55,9 @@ class OrderController extends AdminBaseController
         $paymentMethods = Shop::getPaymentMethods()->flatten()->mapWithKeys(function($method) {
             return [$method::getId() => $method::getName()];
         })->all();
-        return view('order::admin.orders.view', compact('order', 'paymentMethods'));
+        $orderStatuses = $this->orderstatus->all()->pluck('name', 'id')->toArray();
+
+        return view('order::admin.orders.view', compact('order', 'paymentMethods', 'orderStatuses'));
     }
 
     /**
