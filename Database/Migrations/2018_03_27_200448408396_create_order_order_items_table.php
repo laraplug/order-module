@@ -23,6 +23,7 @@ class CreateOrderOrderItemsTable extends Migration
 
             // For bundle product
             $table->integer('parent_id')->unsigned();
+            $table->json('option_values');
             $table->integer('price')->unsigned();
             $table->integer('quantity')->unsigned();
             $table->integer('tax')->unsigned();
@@ -40,20 +41,6 @@ class CreateOrderOrderItemsTable extends Migration
 
             $table->foreign('order_id')->references('id')->on('order__orders')->onDelete('cascade');
         });
-
-        Schema::create('order__order_item_options', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->increments('id');
-
-            $table->integer('order_item_id')->unsigned();
-            $table->integer('product_id')->unsigned();
-            $table->string('slug');
-            $table->text('value');
-
-            $table->timestamps();
-
-            $table->foreign('order_item_id')->references('id')->on('order__order_items')->onDelete('cascade');
-        });
     }
 
     /**
@@ -65,7 +52,6 @@ class CreateOrderOrderItemsTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::dropIfExists('order__order_item_options');
         Schema::dropIfExists('order__order_items');
 
         Schema::enableForeignKeyConstraints();

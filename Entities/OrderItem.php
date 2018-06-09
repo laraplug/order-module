@@ -26,14 +26,12 @@ class OrderItem extends Model implements ShopItemInterface
         'shipping_method_id',
         'shipping_storage_id',
         'status_id',
-        // Virtual Attribute
-        'options',
+        'option_values',
     ];
     protected $casts = [
-        'options' => 'array',
+        'option_values' => 'collection',
     ];
     protected $appends = [
-        'options',
         'product',
         'status_name',
     ];
@@ -52,14 +50,6 @@ class OrderItem extends Model implements ShopItemInterface
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function options()
-    {
-        return $this->hasMany(OrderItemOption::class, 'order_item_id');
     }
 
     /**
@@ -108,40 +98,6 @@ class OrderItem extends Model implements ShopItemInterface
     public function getQuantityAttribute()
     {
         return $this->getAttributeFromArray('quantity');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getOptionsAttribute()
-    {
-        return $this->options()->get();
-    }
-
-    /**
-     * Save Options
-     * @param array $options
-     */
-    public function setOptionsAttribute(array $options = [])
-    {
-        static::saved(function ($model) use ($options) {
-            $savedOptionIds = [];
-            foreach ($options as $data) {
-                if (empty(array_filter($data)) || empty($data['slug'])) {
-                    continue;
-                }
-                // Create option or enable it if exists
-                $productOption = $this->product->options->where('slug', $data['slug'])->first();
-                if($productOption) {
-                    $option = $this->options()->updateOrCreate([
-                        'product_id' => $this->product_id,
-                        'slug' => $data['slug'],
-                    ], $data);
-                    $savedOptionIds[] = $option->id;
-                }
-            }
-            $this->options()->whereNotIn('id', $savedOptionIds)->delete();
-        });
     }
 
     /**

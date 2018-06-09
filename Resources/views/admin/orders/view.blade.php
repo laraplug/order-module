@@ -136,9 +136,13 @@
                           </td>
                           <td>
                               <h4>{{ $item->product->name }}</h4>
-                              @foreach ($item->options as $option)
-                                  <div>{{ $option->name }} : {{ Shop::getOptionValueName($option) }}</div>
-                              @endforeach
+                              @if($item->option_values)
+                                  @foreach ($item->product->options as $option)
+                                      @if($item->option_values->has($option->slug))
+                                      <p>{{ $option->name }} : {{ Shop::getOptionValueName($option, $item->option_values[$option->slug]) }}</p>
+                                      @endif
+                                  @endforeach
+                              @endif
                           </td>
                           <td>{{ Shop::money($item->price) }}</td>
                           <td>{{ $item->quantity }}</td>

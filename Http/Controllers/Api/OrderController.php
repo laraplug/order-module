@@ -40,16 +40,10 @@ class OrderController extends Controller
      */
     public function orderItems(Order $order)
     {
-        $items = $order->items->map(function ($item) {
-            $data = $item->toArray();
-            $data['options'] = $item->options->keyBy('slug');
-
-            return $data;
-        });
 
         return response()->json([
             'errors' => false,
-            'data' => $items,
+            'data' => $order->items,
         ]);
     }
 

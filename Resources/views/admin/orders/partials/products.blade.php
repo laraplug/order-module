@@ -41,23 +41,18 @@
                             <label class="col-sm-2">
                               <input type="checkbox"
                                   ng-true-value="1" ng-false-value="0"
-                                  ng-model="item.options[option.slug].enabled"
+                                  ng-model="option.enabled"
                                   ng-disabled="item.is_readonly"
-                                  ng-change="!item.options[option.slug].enabled ? item.options[option.slug].value = '' : ''">
+                                  ng-change="!option.enabled ? item.option_values[option.slug] = '' : ''">
                             </label>
                             <div class="col-sm-10 form-group">
                                 <label>{% option.name %}</label>
                                 <div compile="option.form_field"></div>
 
                                 <input type="hidden"
-                                    name="items[{% $itemIndex %}][options][{% option.slug %}][value]"
-                                    ng-value="item.options[option.slug].value"
-                                    ng-disabled="item.is_readonly || !item.options[option.slug].enabled" />
-
-                                <input type="hidden"
-                                    name="items[{% $itemIndex %}][options][{% option.slug %}][slug]"
-                                    ng-value="option.slug"
-                                    ng-disabled="item.is_readonly || !item.options[option.slug].enabled" />
+                                    name="items[{% $itemIndex %}][option_values][{% option.slug %}]"
+                                    ng-value="item.option_values[option.slug]"
+                                    ng-disabled="item.is_readonly || !option.enabled" />
                             </div>
                         </div>
                     </td>
@@ -131,13 +126,17 @@
             if(!item['product']) return;
 
             // 옵션은 존재하면 enabled처리
-            for(var optionSlug in item.options) {
-                item.options[optionSlug].enabled = 1;
-            }
+            item.product.options.map(function(option) {
+                if(item.option_values[option.slug] !== undefined) {
+                    option.value = item.option_values[option.slug];
+                    option.enabled = 1;
+                }
+                return option;
+            });
 
             item.product.options.map(function(option) {
                 option.form_field = option.form_field.replace('name="options[', 'name="items[{% $itemIndex %}][options][');
-                option.form_field = option.form_field.replace('name=', 'ng-model="item.options[option.slug].value" ng-disabled="item.is_readonly || !item.options[option.slug].enabled" name=');
+                option.form_field = option.form_field.replace('name=', 'ng-model="item.option_values[option.slug]" ng-disabled="item.is_readonly || !option.enabled" name=');
                 return option;
             });
 
@@ -150,15 +149,10 @@
 
         $scope.calcProductPrice = function (bundleItem) {
             var total = Number(bundleItem.product.price);
-            var selectedOptions = [];
-            for(optionSlug in bundleItem.options) {
-                var options = bundleItem.product.options.filter(function(option) {
-                    return option.slug == optionSlug;
-                });
-                if(options.length) selectedOptions.push(options[0]);
-            }
+            var selectedOptions = bundleItem.product.options.filter(function(option) {
+                return option.value !== undefined;
+            });
             for(var option of selectedOptions) {
-                option.value = bundleItem.options[option.slug].value;
                 // 배열타입 옵션이면 가격적용
                 // Apply price if collection type option
                 if(option.is_collection && option.value) {
@@ -196,7 +190,8 @@
 
                 var item = normalizeBundleItem({
                     'product': product,
-                    'quantity': 1
+                    'quantity': 1,
+                    'option_values': {}
                 });
                 $scope.orderItems.push(item);
 
