@@ -1,5 +1,8 @@
 url: https://github.com/laraplug/order-module
 versions:
-    "0.1.0":
-        added:
-            - Initial Release
+  "0.4.0":
+    changed:
+      - Change item options table into json column (DB changed)
+  "0.1.0":
+    added:
+      - Initial Release
