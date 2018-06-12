@@ -127,7 +127,7 @@ class Order extends Model implements ShopOrderInterface
                  }
                  else {
                      // 옵션이 무조건 저장되도록 설정 (옵션없이 저장되면 옵션이 삭제되어야 함)
-                     if(empty($data['options'])) $data['options'] = [];
+                     if(empty($data['option_values'])) $data['option_values'] = [];
                      $orderItem = $this->items()->create($data);
                  }
                  $savedIds[] = $orderItem->id;
@@ -345,7 +345,9 @@ class Order extends Model implements ShopOrderInterface
      */
     public function importItem(ShopItemInterface $item)
     {
-        $orderItem = $this->items()->create($item->toOrderItemArray());
+        $data = $item->toOrderItemArray();
+        $data['status_id'] = OrderStatus::PENDING;
+        $orderItem = $this->items()->create($data);
         // 하위 상품이 있다면
         if(!empty($item->children)) {
             foreach ($item->children as $child) {
