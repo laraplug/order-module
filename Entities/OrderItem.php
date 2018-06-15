@@ -35,6 +35,9 @@ class OrderItem extends Model implements ShopItemInterface
         'product',
         'status_name',
     ];
+    protected $hidden = [
+        'order',
+    ];
 
     /**
      * @inheritDoc
