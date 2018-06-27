@@ -2,6 +2,8 @@
 
 namespace Modules\Order\Entities;
 
+use Illuminate\Support\Collection;
+
 use Illuminate\Database\Eloquent\Model;
 use Modules\Product\Entities\Product;
 use Modules\Shop\Contracts\ShopItemInterface;
@@ -133,6 +135,17 @@ class OrderItem extends Model implements ShopItemInterface
     public function getStatusNameAttribute()
     {
         return $this->status ? $this->status->name : '';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOptionValuesAttribute($optionValues)
+    {
+        if(!$optionValues instanceof Collection) {
+            $optionValues = collect($optionValues);
+        }
+        $this->attributes['option_values'] = $optionValues->toJson(JSON_NUMERIC_CHECK);
     }
 
     /**
