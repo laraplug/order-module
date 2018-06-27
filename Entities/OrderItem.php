@@ -140,7 +140,7 @@ class OrderItem extends Model implements ShopItemInterface
     /**
      * @inheritDoc
      */
-    public function getOptionValuesAttribute($optionValues)
+    public function setOptionValuesAttribute($optionValues)
     {
         if(!$optionValues instanceof Collection) {
             $optionValues = collect($optionValues);
