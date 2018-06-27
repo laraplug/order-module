@@ -128,6 +128,8 @@
             // 옵션은 존재하면 enabled처리
             item.product.options.map(function(option) {
                 if(item.option_values[option.slug] !== undefined) {
+                    // 숫자는 string으로 변환 (select에서 값 인식이 안됨)
+                    if(typeof item.option_values[option.slug] == 'number') item.option_values[option.slug] += '';
                     option.value = item.option_values[option.slug];
                     option.enabled = 1;
                 }
