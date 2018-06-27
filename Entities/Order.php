@@ -154,9 +154,9 @@ class Order extends Model implements ShopOrderInterface
      */
     public function getNameAttribute()
     {
-        $item = $this->items->first();
+        $item = $this->items()->first();
         // 번들상품의 경우 하위품목은 이름에 포함시키지 않음
-        $count = $this->items->where('parent_id', 0)->count();
+        $count = $this->items()->where('parent_id', 0)->count();
         if($count > 1) {
             return trans('order::orders.name and count items', [
                 'name' => $item->product->name,
