@@ -40,10 +40,12 @@ class OrderController extends Controller
      */
     public function orderItems(Order $order)
     {
-
         return response()->json([
             'errors' => false,
-            'data' => $order->items,
+            'data' => $order->items->map(function($item) {
+                $item->product->load('options');
+                return $item;
+            }),
         ]);
     }
 
