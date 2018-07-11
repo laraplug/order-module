@@ -86,7 +86,7 @@ class OrderItem extends Model implements ShopItemInterface
      */
     public function getProductAttribute()
     {
-        return $this->product()->first();
+        return $this->getRelationValue('product');
     }
 
     /**

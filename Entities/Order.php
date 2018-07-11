@@ -273,7 +273,7 @@ class Order extends Model implements ShopOrderInterface
      */
     public function getStatusAttribute()
     {
-        return $this->status()->first();
+        return $this->getRelationValue('status');
     }
 
     /**
