@@ -163,4 +163,25 @@ class OrderItem extends Model implements ShopItemInterface
     {
         return $this->toArray();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function __call($method, $parameters)
+    {
+        // Dynamic Relation Injection
+        #i: Convert array to dot notation
+        $config = implode('.', ['asgard.order.config.orderitem.relations', $method]);
+
+        #i: Relation method resolver
+        if (config()->has($config)) {
+            $function = config()->get($config);
+            $bound = $function->bindTo($this);
+
+            return $bound();
+        }
+
+        #i: No relation found, return the call to parent (Eloquent) to handle it.
+        return parent::__call($method, $parameters);
+    }
 }
