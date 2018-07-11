@@ -159,11 +159,11 @@ class Order extends Model implements ShopOrderInterface
         $count = $this->items()->where('parent_id', 0)->count();
         if($count > 1) {
             return trans('order::orders.name and count items', [
-                'name' => $item->product->name,
+                'name' => array_get($item, 'product.name'),
                 'count' => $count -1,
             ]);
         }
-        return $item->product->name;
+        return array_get($item, 'product.name');
     }
 
     /**
