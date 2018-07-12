@@ -76,6 +76,7 @@
             .withDataProp('data')
             .withOption('processing', true)
             .withOption('serverSide', true)
+            .withOption('order', [0, 'desc'])
             .withPaginationType('full_numbers')
             .withOption('rowCallback', function(row, data) {
                 // Angular scope데이터 적용
