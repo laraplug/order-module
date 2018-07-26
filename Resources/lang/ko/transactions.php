@@ -27,7 +27,7 @@ return [
     'transaction_id' => '거래ID',
     'currency_code' => '통화',
     'amount' => '결제금액',
-    'message' => '메세지',
+    'message' => '메모',
     'bank_name' => '결제은행',
     'bank_account' => '계좌번호',
     'make order paid' => '주문 결제완료 처리',

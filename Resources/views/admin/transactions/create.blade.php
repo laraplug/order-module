@@ -52,12 +52,6 @@
                         <div class="col-md-4">
                             {!! Form::normalInput('payer_name', trans('order::transactions.payer_name'), $errors) !!}
                         </div>
-                        <div class="col-md-4">
-                            {!! Form::normalInput('bank_name', trans('order::transactions.bank_name'), $errors) !!}
-                        </div>
-                        <div class="col-md-4">
-                            {!! Form::normalInput('bank_account', trans('order::transactions.bank_account'), $errors) !!}
-                        </div>
                     </div>
 
                     {!! Form::normalTextarea('message', trans('order::transactions.message'), $errors, null, ['class' => 'form-control']) !!}

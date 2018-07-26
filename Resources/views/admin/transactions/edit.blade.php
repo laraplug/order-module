@@ -48,10 +48,10 @@
                             {!! Form::normalInput('payer_name', trans('order::transactions.payer_name'), $errors, $transaction) !!}
                         </div>
                         <div class="col-md-4">
-                            {!! Form::normalInput('bank_name', trans('order::transactions.bank_name'), $errors, $transaction) !!}
+                            {!! Form::normalInput('bank_name', trans('order::transactions.bank_name'), $errors, $transaction, ['disabled']) !!}
                         </div>
                         <div class="col-md-4">
-                            {!! Form::normalInput('bank_account', trans('order::transactions.bank_account'), $errors, $transaction) !!}
+                            {!! Form::normalInput('bank_account', trans('order::transactions.bank_account'), $errors, $transaction, ['disabled']) !!}
                         </div>
                     </div>
 

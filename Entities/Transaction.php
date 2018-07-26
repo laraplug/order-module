@@ -5,9 +5,7 @@ namespace Modules\Order\Entities;
 use Modules\Shop\Contracts\ShopTransactionInterface;
 use Modules\Shop\Repositories\PaymentMethodManager;
 use Modules\Shop\Repositories\PaymentGatewayManager;
-
 use Illuminate\Database\Eloquent\Model;
-
 use Modules\User\Entities\Sentinel\User;
 
 class Transaction extends Model implements ShopTransactionInterface
