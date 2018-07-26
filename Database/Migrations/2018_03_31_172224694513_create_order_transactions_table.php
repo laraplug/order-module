@@ -26,6 +26,10 @@ class CreateOrderTransactionsTable extends Migration
             $table->integer('amount');
             $table->string('message', 500)->nullable();
 
+            $table->timestamp('pay_at')->nullable();
+            $table->timestamp('receipt_at')->nullable();
+            $table->string('payer_name')->nullable();
+
             $table->string('bank_name')->nullable();
             $table->string('bank_account')->nullable();
             $table->text('additional_data')->nullable();

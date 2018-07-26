@@ -21,7 +21,7 @@ return [
     ],
     'validation' => [
     ],
-    'user_name' => '사용자',
+    'user_name' => '입력한사용자',
     'gateway' => '게이트웨이',
     'payment_method' => '결제수단',
     'transaction_id' => '거래ID',
@@ -29,6 +29,9 @@ return [
     'amount' => '결제금액',
     'message' => '메세지',
     'bank_name' => '결제은행',
-    'bank_account' => '계좌정보',
+    'bank_account' => '계좌번호',
     'make order paid' => '주문 결제완료 처리',
+    'payer_name' => '입금자명',
+    'pay_at' => '결제일시',
+    'receipt_at' => '현영발행일시',
 ];

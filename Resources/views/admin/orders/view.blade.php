@@ -15,11 +15,76 @@
     <form name="orderView">
     <div class="row">
         <div class="col-md-12">
+            <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.order.order.destroy', [$order->id]) }}">
+                <i class="fa fa-trash"></i> {{ trans('core::core.button.delete') }}
+            </button>
             <a href="{{ route('admin.order.order.edit', $order->id) }}" class="btn btn-primary btn-flat pull-right" style="margin: 0px 15px 15px 0px;">
                 <i class="fa fa-pencil"></i> {{ trans('core::core.button.update') }}
             </a>
         </div>
     </div>
+
+    <div class="box box-primary">
+      <div class="box-header with-border">
+          <h3 class="box-title">결제 정보</h3>
+      </div>
+      <div class="box-body">
+          <div class="row">
+              <div class="col-sm-12">
+                  <label>{{ trans('order::orders.form.payment_method') }}</label>
+                  <p>{{ $order->payment_method->getName() }}</p>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12">
+                  <table class="table">
+                      <tbody>
+                          <tr>
+                              <th>#</th>
+                              <th>{{ trans('order::transactions.pay_at') }}</th>
+                              <th>{{ trans('order::transactions.receipt_at') }}</th>
+                              <th>{{ trans('order::transactions.payment_method') }}</th>
+                              <th>{{ trans('order::transactions.transaction_id') }}</th>
+                              <th>{{ trans('order::transactions.user_name') }}</th>
+                              <th>{{ trans('order::transactions.payer_name') }}</th>
+                              <th>{{ trans('order::transactions.amount') }}</th>
+                              <th>{{ trans('order::transactions.message') }}</th>
+                              <th>{{ trans('core::core.table.actions') }}</th>
+                          </tr>
+                          @foreach ($order->transactions as $transaction)
+                          <tr>
+                              <td>{{ $loop->index + 1 }}</td>
+                              <td>{{ $transaction->pay_at }}</td>
+                              <td>{{ $transaction->receipt_at }}</td>
+                              <td>{{ $transaction->payment_method->getName() }}</td>
+                              <td>{{ $transaction->gateway_transaction_id }}</td>
+                              <td>{{ $transaction->user->present()->fullname }}</td>
+                              <td>{{ $transaction->payer_name }}</td>
+                              <td>{{ Shop::money($transaction->amount) }}</td>
+                              <td>{{ $transaction->message }}</td>
+                              <td>
+                                  <a class="btn btn-default btn-flat" href="{{ route('admin.order.transaction.edit', $transaction->id) }}">
+                                      <i class="fa fa-pencil"></i>
+                                  </a>
+                                  <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.order.transaction.destroy', $transaction->id) }}">
+                                      <i class="fa fa-trash"></i>
+                                  </button>
+                              </td>
+                          </tr>
+                          @endforeach
+                          <tr>
+                              <td colspan="7">
+                                  <button type="button" onclick="location.href = '{{ route('admin.order.transaction.create', $order->id) }}';" class="btn btn-primary btn-sm">
+                                      {{ trans('order::transactions.button.create transaction') }}
+                                  </button>
+                              </td>
+                          </tr>
+                    </tbody>
+                </table>
+              </div>
+          </div>
+      </div>
+    </div><!-- /.box -->
 
     <div class="row">
         <div class="col-md-6">
@@ -185,63 +250,6 @@
                     </div>
                 </div>
             </div>
-          <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">결제 정보</h3>
-            </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <label>{{ trans('order::orders.form.payment_method') }}</label>
-                        <p>{{ $order->payment_method->getName() }}</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <th>#</th>
-                                    <th>{{ trans('order::transactions.user_name') }}</th>
-                                    <th>{{ trans('order::transactions.gateway') }}</th>
-                                    <th>{{ trans('order::transactions.payment_method') }}</th>
-                                    <th>{{ trans('order::transactions.transaction_id') }}</th>
-                                    <th>{{ trans('order::transactions.amount') }}</th>
-                                    <th>{{ trans('order::transactions.message') }}</th>
-                                    <th>{{ trans('core::core.table.actions') }}</th>
-                                </tr>
-                                @foreach ($order->transactions as $transaction)
-                                <tr>
-                                    <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $transaction->user->present()->fullname }}</td>
-                                    <td>{{ $transaction->gateway->getName() }}</td>
-                                    <td>{{ $transaction->payment_method->getName() }}</td>
-                                    <td>{{ $transaction->gateway_transaction_id }}</td>
-                                    <td>{{ Shop::money($transaction->amount) }}</td>
-                                    <td>{{ $transaction->message }}</td>
-                                    <td>
-                                        <a class="btn btn-default btn-flat" href="{{ route('admin.order.transaction.edit', $transaction->id) }}" target="_blank">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
-                                        <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.order.transaction.destroy', $transaction->id) }}">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                <tr>
-                                    <td colspan="7">
-                                        <button type="button" onclick="location.href = '{{ route('admin.order.transaction.create', $order->id) }}';" class="btn btn-primary btn-sm">
-                                            {{ trans('order::transactions.button.create transaction') }}
-                                        </button>
-                                    </td>
-                                </tr>
-                          </tbody>
-                      </table>
-                    </div>
-                </div>
-            </div>
-          </div><!-- /.box -->
         </div><!-- /.col-md-6 -->
     </div>
     </form>

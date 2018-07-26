@@ -22,6 +22,10 @@ class Transaction extends Model implements ShopTransactionInterface
         'currency_code',
         'amount',
         'message',
+        'pay_at',
+        // receipt issue date
+        'receipt_at',
+        'payer_name',
         'bank_name',
         'bank_account',
         'additional_data',

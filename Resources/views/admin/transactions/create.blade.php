@@ -24,16 +24,7 @@
             <div class="box box-primary">
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            {!! Form::normalInput('bank_name', trans('order::transactions.bank_name'), $errors) !!}
-                        </div>
-                        <div class="col-md-6">
-                            {!! Form::normalInput('bank_account', trans('order::transactions.bank_account'), $errors) !!}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-1">
                             <div class="form-group {{ $errors->has('currency_code') ? 'has-error' : '' }}">
                                 <label for="currency_code">{{ trans('order::transactions.currency_code') }}</label>
                                 <select class="selectize" name="currency_code" id="currency_code">
@@ -46,8 +37,26 @@
                                 {!! $errors->first('currency_code', '<span class="help-block">:message</span>') !!}
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-sm-3">
                             {!! Form::normalInput('amount', trans('order::transactions.amount'), $errors) !!}
+                        </div>
+                        <div class="col-sm-4">
+                            {!! Form::normalInput('pay_at', trans('order::transactions.pay_at'), $errors, null, ['class' => 'form-control datetimepicker']) !!}
+                        </div>
+                        <div class="col-sm-4">
+                            {!! Form::normalInput('receipt_at', trans('order::transactions.receipt_at'), $errors, null, ['class' => 'form-control datetimepicker']) !!}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            {!! Form::normalInput('payer_name', trans('order::transactions.payer_name'), $errors) !!}
+                        </div>
+                        <div class="col-md-4">
+                            {!! Form::normalInput('bank_name', trans('order::transactions.bank_name'), $errors) !!}
+                        </div>
+                        <div class="col-md-4">
+                            {!! Form::normalInput('bank_account', trans('order::transactions.bank_account'), $errors) !!}
                         </div>
                     </div>
 
@@ -77,6 +86,8 @@
         <dd>{{ trans('core::core.back to index') }}</dd>
     </dl>
 @stop
+
+@include('order::admin.transactions.partials.scripts')
 
 @push('js-stack')
     <script type="text/javascript">

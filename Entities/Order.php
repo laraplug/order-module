@@ -2,6 +2,8 @@
 
 namespace Modules\Order\Entities;
 
+use Carbon\Carbon;
+
 use Modules\Shop\Entities\Shop;
 
 use Modules\Shop\Contracts\ShopItemInterface;
@@ -321,6 +323,7 @@ class Order extends Model implements ShopOrderInterface
             'bank_name' => $bankName,
             'bank_account' => $bankAccount,
             'additional_data' => $additionalData,
+            'pay_at' => Carbon::now(),
         ]);
     }
 
