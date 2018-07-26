@@ -33,5 +33,10 @@ return [
     'make order paid' => '주문 결제완료 처리',
     'payer_name' => '입금자명',
     'pay_at' => '결제일시',
+    'receipt_type' => '영수증구분',
+    'receipt_types' => [
+        'cash' => '현금영수증',
+        'tax' => '세금계산서',
+    ],
     'receipt_at' => '영수증발행일시',
 ];

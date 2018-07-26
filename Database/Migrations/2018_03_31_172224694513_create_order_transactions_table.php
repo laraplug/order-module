@@ -27,6 +27,7 @@ class CreateOrderTransactionsTable extends Migration
             $table->string('message', 500)->nullable();
 
             $table->timestamp('pay_at')->nullable();
+            $table->string('receipt_type')->nullable();
             $table->timestamp('receipt_at')->nullable();
             $table->string('payer_name')->nullable();
 

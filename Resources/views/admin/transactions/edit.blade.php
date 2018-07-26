@@ -35,10 +35,16 @@
                         <div class="col-sm-3">
                             {!! Form::normalInput('amount', trans('order::transactions.amount'), $errors, $transaction) !!}
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             {!! Form::normalInput('pay_at', trans('order::transactions.pay_at'), $errors, $transaction, ['class' => 'form-control datetimepicker']) !!}
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
+                            {!! Form::normalSelect('receipt_type', trans('order::transactions.receipt_type'), $errors, [
+                                'cash' => trans('order::transactions.receipt_types.cash'),
+                                'tax' => trans('order::transactions.receipt_types.tax'),
+                            ], $transaction, ['class' => 'form-control']) !!}
+                        </div>
+                        <div class="col-sm-3">
                             {!! Form::normalInput('receipt_at', trans('order::transactions.receipt_at'), $errors, $transaction, ['class' => 'form-control datetimepicker']) !!}
                         </div>
                     </div>

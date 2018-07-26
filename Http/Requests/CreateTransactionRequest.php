@@ -8,7 +8,9 @@ class CreateTransactionRequest extends BaseFormRequest
 {
     public function rules()
     {
-        return [];
+        return [
+            'amount' => 'numeric|required'
+        ];
     }
 
     public function translationRules()

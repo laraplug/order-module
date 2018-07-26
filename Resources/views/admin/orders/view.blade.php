@@ -42,6 +42,7 @@
                           <tr>
                               <th>#</th>
                               <th>{{ trans('order::transactions.pay_at') }}</th>
+                              <th>{{ trans('order::transactions.receipt_type') }}</th>
                               <th>{{ trans('order::transactions.receipt_at') }}</th>
                               <th>{{ trans('order::transactions.payment_method') }}</th>
                               <th>{{ trans('order::transactions.transaction_id') }}</th>
@@ -55,6 +56,7 @@
                           <tr>
                               <td>{{ $loop->index + 1 }}</td>
                               <td>{{ $transaction->pay_at }}</td>
+                              <td>{{ $transaction->receipt_type_name }}</td>
                               <td>{{ $transaction->receipt_at }}</td>
                               <td>{{ $transaction->payment_method->getName() }}</td>
                               <td>{{ $transaction->gateway_transaction_id }}</td>

@@ -21,7 +21,7 @@ class Transaction extends Model implements ShopTransactionInterface
         'amount',
         'message',
         'pay_at',
-        // receipt issue date
+        'receipt_type',
         'receipt_at',
         'payer_name',
         'bank_name',
@@ -52,6 +52,11 @@ class Transaction extends Model implements ShopTransactionInterface
     public function getPaymentMethodAttribute()
     {
         return app(PaymentMethodManager::class)->find($this->payment_method_id);
+    }
+
+    public function getReceiptTypeNameAttribute()
+    {
+        return $this->receipt_type ? trans("order::transactions.receipt_types.$this->receipt_type") : '';
     }
 
 }
