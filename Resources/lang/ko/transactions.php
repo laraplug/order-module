@@ -33,5 +33,5 @@ return [
     'make order paid' => '주문 결제완료 처리',
     'payer_name' => '입금자명',
     'pay_at' => '결제일시',
-    'receipt_at' => '현영발행일시',
+    'receipt_at' => '영수증발행일시',
 ];
