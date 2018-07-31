@@ -196,27 +196,28 @@
                           <th width="10%">{{ trans('order::orders.items.action') }}</th>
                         </tr>
                         @foreach ($order->items as $i => $item)
-                            @if($item->product)
+                            @if ($item->product)
                                 <tr>
-                                    <td>{{ $i + 1 }}</td>
-                                    <td>
-                                        <img src="{{ $item->product->small_thumb }}" style="width:100%; max-width:100px;" />
-                                    </td>
-                                    <td>
-                                        <h4>{{ $item->product->name }}</h4>
-                                        @if($item->option_values)
-                                            @foreach ($item->product->options as $option)
-                                                @if($item->option_values->has($option->slug))
-                                                    <p>{{ $option->name }} : {{ Shop::getOptionValueName($option, $item->option_values[$option->slug]) }}</p>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                    </td>
-                                    <td>{{ Shop::money($item->price) }}</td>
-                                    <td>{{ $item->quantity }}</td>
-                                    <td>{{ Shop::money($item->total) }}</td>
-                                    <td>{!! $item->getProductActionFields() !!}</td>
-                                </tr>
+                                  <td>{{ $i + 1 }}</td>
+                                  <td>
+                                      <img src="{{ $item->product->small_thumb }}" style="width:100%; max-width:100px;" />
+                                  </td>
+                                  <td>
+                                      <h4>{{ $item->product->name }}</h4>
+                                      @if($item->option_values)
+                                          @foreach ($item->product->options as $option)
+                                              @if($item->option_values->has($option->slug))
+                                              <p>{{ $option->name }} : {{ Shop::getOptionValueName($option, $item->option_values[$option->slug]) }}</p>
+                                              @endif
+                                          @endforeach
+                                      @endif
+                                  </td>
+                                  <td>{{ Shop::money($item->price) }}</td>
+                                  <td>{{ $item->quantity }}</td>
+                                  <td>{{ Shop::money($item->total) }}</td>
+                                  {{-- <td>{!! $item->getProductActionFields() !!}</td> --}}
+                                  <td><input type="checkbox" class="btn-status" value="{{ $item->status->id }}" data-item-id="{{ $item->id }}" data-status-id="9"> 배송완료</td>
+                              </tr>
                             @endif
                         @endforeach
                         <tr class="text-bold">
@@ -268,6 +269,23 @@
 @section('scripts')
 <script>
 $(function() {
+    // 버튼
+    $('input[type="checkbox"].btn-status').each(function() {
+        if($(this).data('status-id') == $(this).val()) $(this).attr('checked', true);
+    })
+    $('input[type="checkbox"].btn-status').change(function() {
+        // 체크가 된 상태라면 배송완료 확인
+        if($(this).is(":checked")) {
+            console.log('checked');
+            changeItemStatus($(this).data('item-id'), 9);
+        }
+        // 체크가 해제 된 상태라면 배송완료 취소 -> 대기 상태로 변경
+        else {
+            console.log('ucchecked');
+            changeItemStatus($(this).data('item-id'), 3);
+        }
+    })
+
     $('#btnSaveStatus').click(function() {
         var statusId = $('select[name=status_id]').val();
         console.log('statusId', statusId);
@@ -292,6 +310,29 @@ $(function() {
         }
     });
 });
+
+// 상품 상태변경 함수
+function changeItemStatus(item_id, status_id) {
+    if(item_id && status_id) {
+        $.ajax({
+            type: 'PUT',
+            url: '{{ route('api.order.orders.updateItemStatus', $order->id) }}',
+            data: {'status_id': status_id, 'item_id': item_id},
+            dataType: 'json',
+            success: function(data) {
+                if(data.errors) {
+                    alert(data.errors);
+                }
+                else {
+                    alert(data.message);
+                }
+                console.log(data);
+            },
+            error:function (xhr, ajaxOptions, thrownError){
+            }
+        });
+    }
+}
 
 </script>
 @stop

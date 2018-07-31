@@ -50,6 +50,23 @@ class OrderController extends Controller
     }
 
     /**
+     * 주문상품 상태저장
+     * @param  Order  $order
+     * @param  Request $request
+     * @return mixed
+     */
+    public function updateItemStatus(Order $order, Request $request)
+    {
+        $order->items->where('id', $request->item_id)->first()->update(['status_id' => $request->status_id]);
+
+        return response()->json([
+            'errors' => false,
+            'message' => trans('core::core.messages.resource updated', ['name' => trans('order::orders.form.status')]),
+            'data' => $order,
+        ]);
+    }
+
+    /**
      * 주문상태 저장
      * @param  Order  $order
      * @param  Request $request

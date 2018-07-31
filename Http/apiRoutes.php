@@ -23,4 +23,10 @@ $router->group(['prefix' => '/order', 'middleware' => ['bindings', 'api.token', 
         'middleware' => 'can:order.orders.edit'
     ]);
 
+    $router->put('orders/{order}/itemstatus', [
+        'as' => 'api.order.orders.updateItemStatus',
+        'uses' => 'OrderController@updateItemStatus',
+        'middleware' => 'can:order.orders.edit'
+    ]);
+
 });
