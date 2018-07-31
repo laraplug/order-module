@@ -196,26 +196,28 @@
                           <th width="10%">{{ trans('order::orders.items.action') }}</th>
                         </tr>
                         @foreach ($order->items as $i => $item)
-                        <tr>
-                          <td>{{ $i + 1 }}</td>
-                          <td>
-                              <img src="{{ $item->product->small_thumb }}" style="width:100%; max-width:100px;" />
-                          </td>
-                          <td>
-                              <h4>{{ $item->product->name }}</h4>
-                              @if($item->option_values)
-                                  @foreach ($item->product->options as $option)
-                                      @if($item->option_values->has($option->slug))
-                                      <p>{{ $option->name }} : {{ Shop::getOptionValueName($option, $item->option_values[$option->slug]) }}</p>
-                                      @endif
-                                  @endforeach
-                              @endif
-                          </td>
-                          <td>{{ Shop::money($item->price) }}</td>
-                          <td>{{ $item->quantity }}</td>
-                          <td>{{ Shop::money($item->total) }}</td>
-                          <td>{!! $item->getProductActionFields() !!}</td>
-                        </td>
+                            @if($item->product)
+                                <tr>
+                                    <td>{{ $i + 1 }}</td>
+                                    <td>
+                                        <img src="{{ $item->product->small_thumb }}" style="width:100%; max-width:100px;" />
+                                    </td>
+                                    <td>
+                                        <h4>{{ $item->product->name }}</h4>
+                                        @if($item->option_values)
+                                            @foreach ($item->product->options as $option)
+                                                @if($item->option_values->has($option->slug))
+                                                    <p>{{ $option->name }} : {{ Shop::getOptionValueName($option, $item->option_values[$option->slug]) }}</p>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td>{{ Shop::money($item->price) }}</td>
+                                    <td>{{ $item->quantity }}</td>
+                                    <td>{{ Shop::money($item->total) }}</td>
+                                    <td>{!! $item->getProductActionFields() !!}</td>
+                                </tr>
+                            @endif
                         @endforeach
                         <tr class="text-bold">
                           <td colspan="5" class="text-right">{{ trans('order::orders.form.total_price') }}</td>
