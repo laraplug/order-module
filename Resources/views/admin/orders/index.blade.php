@@ -29,8 +29,8 @@
       </div>
 
       <script type="text/ng-template" id="actionColumn.tmpl">
-          <a ng-href="{% vm.route('admin.order.order.show', [row.id]) %}" class="btn btn-primary btn-flat"><i class="fa fa-eye"></i></a>
-          <a ng-href="{% vm.route('admin.order.order.edit', [row.id]) %}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+          <a ng-href="{% vm.route('admin.order.order.show', [row.id]) %}" class="btn btn-primary btn-flat" target="_blank"><i class="fa fa-eye"></i></a>
+          <a ng-href="{% vm.route('admin.order.order.edit', [row.id]) %}" class="btn btn-default btn-flat" target="_blank"><i class="fa fa-pencil"></i></a>
       </script>
 
     </div>

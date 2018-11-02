@@ -57,7 +57,7 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('admin.order.transaction.edit', [$transaction->id]) }}" class="btn btn-default btn-flat"><i class="fa fa-pencil"></i></a>
+                                        <a href="{{ route('admin.order.transaction.edit', [$transaction->id]) }}" class="btn btn-default btn-flat" target="_blank"><i class="fa fa-pencil"></i></a>
                                         <button class="btn btn-danger btn-flat" data-toggle="modal" data-target="#modal-delete-confirmation" data-action-target="{{ route('admin.order.transaction.destroy', [$transaction->id]) }}"><i class="fa fa-trash"></i></button>
                                     </div>
                                 </td>
