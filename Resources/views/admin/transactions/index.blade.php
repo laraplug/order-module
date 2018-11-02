@@ -22,14 +22,34 @@
                         <table class="data-table table table-bordered table-hover">
                             <thead>
                             <tr>
+                                <th>#</th>
+                                <th>{{ trans('order::transactions.pay_at') }}</th>
+                                <th>{{ trans('order::transactions.receipt_type') }}</th>
+                                <th>{{ trans('order::transactions.receipt_at') }}</th>
+                                <th>{{ trans('order::transactions.payment_method') }}</th>
+                                <th>{{ trans('order::transactions.transaction_id') }}</th>
+                                <th>{{ trans('order::transactions.user_name') }}</th>
+                                <th>{{ trans('order::transactions.payer_name') }}</th>
+                                <th>{{ trans('order::transactions.amount') }}</th>
+                                <th>{{ trans('order::transactions.message') }}</th>
                                 <th>{{ trans('core::core.table.created at') }}</th>
                                 <th data-sortable="false">{{ trans('core::core.table.actions') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php if (isset($transactions)): ?>
-                            <?php foreach ($transactions as $transaction): ?>
+                            <?php foreach ($transactions as $i => $transaction): ?>
                             <tr>
+                                <td>{{ $transactions->count() - $i }}</td>
+                                <td>{{ $transaction->pay_at }}</td>
+                                <td>{{ $transaction->receipt_type_name }}</td>
+                                <td>{{ $transaction->receipt_at }}</td>
+                                <td>{{ $transaction->payment_method->getName() }}</td>
+                                <td>{{ $transaction->gateway_transaction_id }}</td>
+                                <td>{{ $transaction->user->present()->fullname }}</td>
+                                <td>{{ $transaction->payer_name }}</td>
+                                <td>{{ Shop::money($transaction->amount) }}</td>
+                                <td>{{ $transaction->message }}</td>
                                 <td>
                                     <a href="{{ route('admin.order.transaction.edit', [$transaction->id]) }}">
                                         {{ $transaction->created_at }}
@@ -45,12 +65,6 @@
                             <?php endforeach; ?>
                             <?php endif; ?>
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>{{ trans('core::core.table.created at') }}</th>
-                                <th>{{ trans('core::core.table.actions') }}</th>
-                            </tr>
-                            </tfoot>
                         </table>
                         <!-- /.box-body -->
                     </div>
@@ -73,15 +87,6 @@
 @stop
 
 @push('js-stack')
-    <script type="text/javascript">
-        $( document ).ready(function() {
-            $(document).keypressAction({
-                actions: [
-                    { key: 'c', route: "<?= route('admin.order.transaction.create') ?>" }
-                ]
-            });
-        });
-    </script>
     <?php $locale = locale(); ?>
     <script type="text/javascript">
         $(function () {
