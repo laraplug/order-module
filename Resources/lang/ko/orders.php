@@ -37,6 +37,7 @@ return [
         'status' => '주문상태',
         'payment_gateway' => '결제모듈',
         'payment_method' => '결제수단',
+        'academy_address' => '해당 상품은 해당원으로 배송됩니다.',
     ],
     'messages' => [
         'please accept terms conditions' => '이용약관에 동의해주세요.',
