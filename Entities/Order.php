@@ -267,7 +267,7 @@ class Order extends Model implements ShopOrderInterface
      */
     public function getMediumThumbAttribute()
     {
-        return $this->items->first()->product->medium_thumb;
+        return "this";
     }
 
     /**
