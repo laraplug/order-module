@@ -113,8 +113,7 @@ class Order extends Model implements ShopOrderInterface
      * Save Ordered Items
      */
      public function setItemsAttribute($items)
-     {
-         static::saved(function ($model) use ($items) {
+     {      static::saved(function ($model) use ($items) {
              $savedIds = [];
              foreach ($items as $data) {
                  // 상품ID는 필수

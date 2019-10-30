@@ -160,7 +160,7 @@ class OrderItem extends Model implements ShopItemInterface
      * @inheritDoc
      */
     public function toOrderItemArray(ShopItemInterface $parentItem = null)
-    {
+    {   
         return $this->toArray();
     }
 
