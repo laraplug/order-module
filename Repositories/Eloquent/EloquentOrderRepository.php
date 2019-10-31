@@ -18,7 +18,6 @@ class EloquentOrderRepository extends EloquentBaseRepository implements OrderRep
     public function create($data)
     {
         $items = $data['items'];
-        dd($items);
         unset($data['items']);
         $model = $this->model->newInstance($data);
         $model->shop_id = $data['shop_id'];
