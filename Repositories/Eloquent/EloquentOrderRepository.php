@@ -18,6 +18,7 @@ class EloquentOrderRepository extends EloquentBaseRepository implements OrderRep
     public function create($data)
     {
         $items = $data['items'];
+        dd($items);
         unset($data['items']);
         $model = $this->model->newInstance($data);
         $model->shop_id = $data['shop_id'];
@@ -26,7 +27,6 @@ class EloquentOrderRepository extends EloquentBaseRepository implements OrderRep
         // Save Items
         if(!empty($items)) {
             foreach ($items as $item) {
-              dd($item);
               // 졸업앨범으로 들어올 시 optionValues 에 year 란 추가(Ho)
               if($item->product->type =="graduatebook"){
                 $item_data = $item->option_values;
