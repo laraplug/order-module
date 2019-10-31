@@ -17,23 +17,22 @@ class EloquentOrderRepository extends EloquentBaseRepository implements OrderRep
      */
     public function create($data)
     {
-      // 졸업앨범으로 들어올 시 optionValues 에 year 란 추가(Ho)
-      if($data['items'][0]->product->type =="graduatebook"){
-        $item_data = $data['items'][0]->option_values;
-        $graduate_year = date("Y",strtotime("+1 year"));
-        $item_data->put("year",$graduate_year);
-        $data['items'][0]->option_values = $item_data;
-      }
         $items = $data['items'];
         unset($data['items']);
         $model = $this->model->newInstance($data);
         $model->shop_id = $data['shop_id'];
         $model->user_id = $data['user_id'];
         $model->save();
-
         // Save Items
         if(!empty($items)) {
             foreach ($items as $item) {
+              // 졸업앨범으로 들어올 시 optionValues 에 year 란 추가(Ho)
+              if($item->product->type =="graduatebook"){
+                $item_data = $item->option_values;
+                $graduate_year = date("Y",strtotime("+1 year"));
+                $item_data->put("year",$graduate_year);
+                $item->option_values = $item_data;
+              }
                 $model->importItem($item);
             }
         }
