@@ -27,7 +27,7 @@ class EloquentOrderRepository extends EloquentBaseRepository implements OrderRep
         if(!empty($items)) {
             foreach ($items as $item) {
               // 졸업앨범으로 들어올 시 optionValues 에 year 란 추가(Ho)
-              if($item->product->type =="graduatebook"||"diplomabook"){
+              if($item->product->type =="graduatebook"||$item->product->type =="diplomabook"){
                 $item_data = $item->option_values;
                 $graduate_year = date("Y",strtotime("+1 year"));
                 $item_data->put("year",$graduate_year);
