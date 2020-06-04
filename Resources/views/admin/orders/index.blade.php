@@ -36,6 +36,7 @@
     </div>
 
     @include('core::partials.delete-modal')
+    @include('order::admin.orders.partials.export-excel')
 @stop
 
 @section('footer')
@@ -55,12 +56,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/angular-datatables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-datatables/0.6.2/plugins/buttons/angular-datatables.buttons.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
     <script type="text/javascript">
+
 
     angular.module('orders', [
         'ngSanitize',
         'datatables',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'datatables.buttons',
     ])
     .config(function($interpolateProvider, $httpProvider) {
       $interpolateProvider.startSymbol('{%');
@@ -83,7 +94,18 @@
                 var newScope = $scope.$new();
                 newScope.row = data;
                 $compile(angular.element(row).contents())(newScope);
-            });
+            })
+            .withButtons([
+                {
+                text: '<a href="#ex1" rel="modal:open"><button class="btn btn-primary" style="float: right">엑셀 출력</button></a>',
+                key: '1',
+                action: function(e, dt, node, config) {
+                    openModal(dt);
+
+                }
+            }])
+        ;
+
 
         vm.dtColumns = [
             DTColumnBuilder.newColumn('id', 'ID'),
@@ -100,10 +122,18 @@
                 return $templateCache.get('actionColumn.tmpl');
             }).withOption('width', '10%')
         ];
+        //Excel 출력 모달 추가
+        function openModal(modalname){
+            document.get
+            $("#modal").fadeIn(300);
+            $("."+modalname).fadeIn(300);
+        }
+        $("#modal, .close").on('click',function(){ $("#modal").fadeOut(300); $(".modal-con").fadeOut(300); });
 
         // 라우팅함수 추가
         vm.route = window.route;
     });
+
 
     </script>
 @endpush
