@@ -127,4 +127,9 @@ class OrderController extends AdminBaseController
         return redirect()->route('admin.order.order.index')
             ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('order::orders.title.orders')]));
     }
+
+    public function excel()
+    {
+        echo 'test';
+    }
 }
