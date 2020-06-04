@@ -5,6 +5,7 @@ use Illuminate\Routing\Router;
 
 $router->group(['prefix' =>'/order'], function (Router $router) {
     $router->bind('order', function ($id) {
+
         return app('Modules\Order\Repositories\OrderRepository')->find($id);
     });
     $router->get('orders', [
@@ -12,6 +13,11 @@ $router->group(['prefix' =>'/order'], function (Router $router) {
         'uses' => 'OrderController@index',
         'middleware' => 'can:order.orders.index'
     ]);
+    $router->get('orders/excel', [
+        'as' => 'admin.order.order.excel',
+        'uses' => 'OrderController@exportExcel',
+    ]);
+
     $router->get('orders/{order}', [
         'as' => 'admin.order.order.show',
         'uses' => 'OrderController@show',
@@ -42,6 +48,7 @@ $router->group(['prefix' =>'/order'], function (Router $router) {
         'uses' => 'OrderController@destroy',
         'middleware' => 'can:order.orders.destroy'
     ]);
+
 
     $router->bind('orderstatus', function ($id) {
         return app('Modules\Order\Repositories\OrderStatusRepository')->find($id);
