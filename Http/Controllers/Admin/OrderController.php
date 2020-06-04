@@ -4,6 +4,8 @@ namespace Modules\Order\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\Order\Entities\OrderStatus;
 use Modules\Shop\Facades\Shop;
 use Modules\Order\Entities\Order;
 use Modules\Order\Repositories\OrderStatusRepository;
@@ -48,7 +50,7 @@ class OrderController extends AdminBaseController
      *
      * @param Order $order
      * @return Response
-     */
+            */
     public function show(Order $order)
     {
         Shop::instance($order->shop_id);
@@ -126,5 +128,54 @@ class OrderController extends AdminBaseController
 
         return redirect()->route('admin.order.order.index')
             ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('order::orders.title.orders')]));
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function exportExcel(Request $request){
+        $startDay =(!$request->startDay)? 0:$request->startDay;
+        $endDay = (!$request->endDay)? date("Y-m-d",time()+86400):$request->endDay;
+        $order = $this->order->allWithBuilder()->whereBetween('created_at',[$startDay,$endDay])->get();
+        $title = '주문내역';
+        Excel::create($title,function($excel) use ($order,$startDay,$endDay){
+            $excel->sheet('주문내역', function($sheet) use($order,$startDay,$endDay){
+                $sheet->mergeCells('A1:G1');
+                $sheet->setHeight(1, 40);
+                $sheet->cell('A1', function ($cell) use ($startDay, $endDay) {
+                    ($startDay == 0)? $startDay = "처음": $startDay;
+                    $cell->setValue("{$startDay} ~  {$endDay} 주문내역");
+                    $cell->setFontSize(20);
+                    $cell->setFontWeight('bold');
+                    $cell->setAlignment('center');
+                    $cell->setValignment('center');
+                });
+                $sheet->setWidth([
+                    'A' => 5,
+                    'B' => 20,
+                    'C' => 20,
+                    'D' => 20,
+                    'E' => 20,
+                    'F' => 20,
+                    'G' => 20,
+                ]);
+
+                $orderToExcel = $order->map(function($order){
+                    $result = [
+                        'id' => $order->id,
+                        '이름' => $order->name,
+                        '주문자명' => $order->payment_name,
+                        '결제금액' => number_format($order->total_price),
+                        '결제수단' => $order->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
+                        '주문상태' => Order::find($order->status_id)->status->name,
+                        '주문날짜' => $order->created_at,
+                    ];
+                    return $result;
+                });
+                $sheet->fromArray($orderToExcel,null,'A3');
+            });
+        })->download('xlsx');
+        openedWindow.close();
     }
 }
