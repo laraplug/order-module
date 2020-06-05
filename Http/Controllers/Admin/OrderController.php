@@ -168,7 +168,7 @@ class OrderController extends AdminBaseController
                         '주문자명' => $order->payment_name,
                         '결제금액' => number_format($order->total_price),
                         '결제수단' => $order->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
-                        '주문상태' => Order::find($order->status_id)->status->name,
+                        '주문상태' => $order->status->name,
                         '주문날짜' => $order->created_at,
                     ];
                     return $result;
