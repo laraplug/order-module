@@ -38,6 +38,8 @@ class Order extends Model implements ShopOrderInterface
         'total_shipping',
         'total_tax',
         'total_discount',
+//        면세 부분 추가
+        'total_tax_free',
         'total',
 
         'payment_gateway_id',
@@ -348,7 +350,9 @@ class Order extends Model implements ShopOrderInterface
     public function importItem(ShopItemInterface $item)
     {
         $data = $item->toOrderItemArray();
+
         $data['status_id'] = OrderStatus::PENDING;
+        $data['total'] = (($item->price) +($item->tax)+($item->tax_free))*$item->quantity;
         $orderItem = $this->items()->create($data);
         // 하위 상품이 있다면
         if(!empty($item->children)) {

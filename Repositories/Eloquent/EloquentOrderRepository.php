@@ -18,6 +18,7 @@ class EloquentOrderRepository extends EloquentBaseRepository implements OrderRep
     public function create($data)
     {
         $items = $data['items'];
+
         unset($data['items']);
         $model = $this->model->newInstance($data);
         $model->shop_id = $data['shop_id'];
@@ -33,6 +34,7 @@ class EloquentOrderRepository extends EloquentBaseRepository implements OrderRep
                 $item_data->put("year",$graduate_year);
                 $item->option_values = $item_data;
               }
+
                 $model->importItem($item);
             }
         }
