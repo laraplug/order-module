@@ -36,10 +36,12 @@ class Order extends Model implements ShopOrderInterface
 
         'total_price',
         'total_shipping',
-        'total_tax',
         'total_discount',
 //        면세 부분 추가
-        'total_tax_free',
+        'total_tax_amount',
+        'total_supply_amount',
+        'total_tax_free_amount',
+
         'total',
 
         'payment_gateway_id',
