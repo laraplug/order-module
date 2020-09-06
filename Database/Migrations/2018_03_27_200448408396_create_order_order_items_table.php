@@ -28,7 +28,6 @@ class CreateOrderOrderItemsTable extends Migration
             $table->integer('quantity')->unsigned();
             $table->integer('tax')->unsigned();
             $table->integer('discount')->unsigned();
-            $table->integer('tax_free')->unsigned();
             $table->integer('total')->unsigned();
             $table->string('note', 500)->nullable();
 

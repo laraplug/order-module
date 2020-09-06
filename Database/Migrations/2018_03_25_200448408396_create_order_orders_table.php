@@ -40,11 +40,7 @@ class CreateOrderOrdersTable extends Migration
             $table->integer('total_shipping');
             $table->integer('total_tax');
             $table->integer('total_discount');
-            //면세금액칼럼추가 (20200903 Ho)
-            $table->integer('total_tax_free');
             $table->integer('total');
-
-
             $table->string('payment_gateway_id');
             $table->string('payment_method_id');
 
