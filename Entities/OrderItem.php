@@ -23,6 +23,11 @@ class OrderItem extends Model implements ShopItemInterface
         'quantity',
         'tax',
         'discount',
+//        면세 부분 추가 20200904 Ho
+        'tax_free_amount',
+        'tax_amount',
+        'supply_amount',
+
         'total',
         'note',
         'shipping_method_id',
