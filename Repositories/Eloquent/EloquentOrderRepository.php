@@ -27,14 +27,6 @@ class EloquentOrderRepository extends EloquentBaseRepository implements OrderRep
         // Save Items
         if(!empty($items)) {
             foreach ($items as $item) {
-                  // 졸업앨범으로 들어올 시 optionValues 에 year 란 추가(Ho)
-                  if($item->product->type =="graduatebook"||$item->product->type =="diplomabook"){
-                    $item_data = $item->option_values;
-                    $graduate_year = date("Y",strtotime("+1 year"));
-                    $item_data->put("year",$graduate_year);
-                    $item->option_values = $item_data;
-                  }
-
                 //        items 에도 부가가치세 정보를 넣어주기 위해 foreach로 돌린다 20200904 Ho
                 if($item->product['is_tax_free']){
                     $item->tax_free_amount = ($item->total);
