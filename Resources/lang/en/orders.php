@@ -5,6 +5,7 @@ return [
     'create resource' => 'Create orders',
     'edit resource' => 'Edit orders',
     'destroy resource' => 'Destroy orders',
+    'checkout already submited' => 'Orderform is creating',
     'title' => [
         'orders' => 'Order',
         'create order' => 'Create a order',

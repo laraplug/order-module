@@ -80,4 +80,5 @@ return [
     'shipping_method' => '배송방법',
     'name and count items' => ':name 외 :count개 상품',
     'shipping_fee' => '배송비',
+    'checkout already submited' => '주문서가 생성중입니다',
 ];
