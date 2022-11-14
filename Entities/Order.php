@@ -396,9 +396,4 @@ class Order extends Model implements ShopOrderInterface
         return OrderStatus::isCancellable($this->status_id);
     }
 
-    public static function getEnReOrderByCartToken($cartToken = null){
-        $query = Order::query()->where('shipping_custom_field', $cartToken)->get();
-        return $query;
-}
-
 }
