@@ -397,7 +397,7 @@ class Order extends Model implements ShopOrderInterface
     }
 
     public static function getEnReOrderByCartToken($cartToken = null){
-        $query = Order::query()->where('shipping_custom_field', $cartToken);
+        $query = Order::query()->where('shipping_custom_field', $cartToken)->get();
         return $query;
 }
 
