@@ -159,6 +159,7 @@ class OrderController extends AdminBaseController
                     'E' => 20,
                     'F' => 20,
                     'G' => 20,
+                    'H' => 100,
                 ]);
 
                 $orderToExcel = $order->map(function($order){
@@ -170,6 +171,7 @@ class OrderController extends AdminBaseController
                         '결제수단' => $order->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
                         '주문상태' => $order->status->name,
                         '주문날짜' => $order->created_at,
+                        'options' => json_encode($order),
                     ];
                     return $result;
                 });
