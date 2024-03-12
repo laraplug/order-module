@@ -178,7 +178,7 @@ class OrderController extends AdminBaseController
                 ]);
 
                 $orderToExcel = $order->map(function($order){
-                    $orderItems = $this->orderItems($this->order);
+                    $orderItems = $this->orderItems($order);
 
                     $result = [
                         'id' => $order->id,
