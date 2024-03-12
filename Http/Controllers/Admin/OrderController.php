@@ -131,6 +131,21 @@ class OrderController extends AdminBaseController
     }
 
     /**
+     * 주문상품목록
+     * @param  Order  $order
+     * @return \Illuminate\Http\Response
+     */
+    public function orderItems(Order $order)
+    {
+        return response()->json([
+            'errors' => false,
+            'data' => $order->items->map(function($item) {
+                $item->product->load('options');
+                return $item;
+            }),
+        ]);
+    }
+    /**
      * @param Request $request
      * @return Response
      */
@@ -163,6 +178,8 @@ class OrderController extends AdminBaseController
                 ]);
 
                 $orderToExcel = $order->map(function($order){
+                    $orderItems = $this->orderItems($order);
+
                     $result = [
                         'id' => $order->id,
                         '이름' => $order->name,
@@ -171,7 +188,7 @@ class OrderController extends AdminBaseController
                         '결제수단' => $order->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
                         '주문상태' => $order->status->name,
                         '주문날짜' => $order->created_at,
-                        'options' => json_encode($order),
+                        'test'=>json_encode($orderItems)
                     ];
                     return $result;
                 });
