@@ -169,7 +169,6 @@ class OrderController extends AdminBaseController
                     'E' => 20,
                     'F' => 20,
                     'G' => 20,
-                    'H' => 100,
                 ]);
 
                 $orderToExcel = $order->map(function($order){
