@@ -179,11 +179,11 @@ class OrderController extends AdminBaseController
                     // 일반 상품일 경우에만 order_items 를 추려서 정리
                     if($items->product->type =='basic'){
                         foreach ($items->option_values as $key => $value){
-                            $itemKey = $key;
+//                            $itemKey = $key;
 //                            if(substr( $key, 0, 12 ) === 'student_name'){
 //                                $itemKey = '원아명';
 //                            }
-                            $result[$itemKey]=$value;
+                            $result[$key]=$value;
                         }
                     };
                     return $result;
