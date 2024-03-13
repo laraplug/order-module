@@ -165,16 +165,8 @@ class OrderController extends AdminBaseController
 
                 $orderToExcel = $order->map(function($order){
                     $items = $order->items[0];
-                // 일반 상품일 경우에만 order_items 를 추려서 정리
-                    $itemVal="";
-                    if($items->product->type =='basic'){
-                        foreach ($items->option_values as $key => $value){
-                            $itemVal .= "$key : $value ";
-                        }
-//                        $itemVal = $items->option_values->map(function($optionvalues) {
-//                            return $optionvalues;
-//                        });
-                    };
+
+
                     $result = [
                         'id' => $order->id,
                         '이름' => $order->name,
@@ -184,9 +176,10 @@ class OrderController extends AdminBaseController
                         '주문상태' => $order->status->name,
                         '주문날짜' => $order->created_at
                     ];
+                    // 일반 상품일 경우에만 order_items 를 추려서 정리
                     if($items->product->type =='basic'){
                         foreach ($items->option_values as $key => $value){
-                            $result[$key]=$value;
+                            $result["$key"]=$value;
 
                         }
                     };
