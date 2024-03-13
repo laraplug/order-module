@@ -164,7 +164,14 @@ class OrderController extends AdminBaseController
                 ]);
 
                 $orderToExcel = $order->map(function($order){
-                    $test = $order->items;
+                    $items = $order->items[0];
+                // 일반 상품일 경우에만 order_items 를 추려서 정리
+                    $itemVal="";
+                    if($items->product->type =='basic'){
+                        $items->option_values->map(function($optionvalues) use ($itemVal) {
+                            $itemVal += $optionvalues;
+                        });
+                    };
                     $result = [
                         'id' => $order->id,
                         '이름' => $order->name,
@@ -173,7 +180,7 @@ class OrderController extends AdminBaseController
                         '결제수단' => $order->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
                         '주문상태' => $order->status->name,
                         '주문날짜' => $order->created_at,
-                        'Items'=>json_encode($test)
+                        '옵션'=>$itemVal
                     ];
                     return $result;
                 });
