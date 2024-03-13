@@ -182,9 +182,15 @@ class OrderController extends AdminBaseController
                         '결제금액' => number_format($order->total_price),
                         '결제수단' => $order->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
                         '주문상태' => $order->status->name,
-                        '주문날짜' => $order->created_at,
-                        '옵션'=>$itemVal
+                        '주문날짜' => $order->created_at
                     ];
+                    if($items->product->type =='basic'){
+                        foreach ($items->option_values as $key => $value){
+                            array_push($result,(object)[
+                                "$key"=>$value
+                            ]);
+                        }
+                    };
                     return $result;
                 });
                 $sheet->fromArray($orderToExcel,null,'A3');
