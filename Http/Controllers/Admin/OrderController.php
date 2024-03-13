@@ -168,9 +168,8 @@ class OrderController extends AdminBaseController
                 // 일반 상품일 경우에만 order_items 를 추려서 정리
                     $itemVal="";
                     if($items->product->type =='basic'){
-                        $items->option_values->map(function($optionvalues) use ($itemVal) {
-                            $itemVal = json_encode($optionvalues);
-                            return $itemVal;
+                        $itemVal = $items->option_values->map(function($optionvalues) {
+                            return json_encode($optionvalues);
                         });
                     };
                     $result = [
