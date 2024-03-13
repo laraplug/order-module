@@ -132,8 +132,9 @@ class OrderController extends AdminBaseController
 // 일반 상품일 경우에만 order_items 를 추려서 정리
     function findValueByKey ($items,string $searchKey) {
         $return="";
+        $length = strlen( $searchKey );
         foreach ($items as $key => $value){
-            if(substr( $key, 0, 12 ) === $searchKey){
+            if(substr( $key, 0, $length ) === $searchKey){
                 $return .= $value;
             }
         }
@@ -184,6 +185,8 @@ class OrderController extends AdminBaseController
                         '주문상태' => $order->status->name,
                         '주문날짜' => $order->created_at,
                         '원아명' => $this->findValueByKey($items->option_values, 'student_name'),
+                        '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
+                        '원ID' => $this->findValueByKey($items->option_values, 'academy_select')
                     ];
 
                     return $result;
