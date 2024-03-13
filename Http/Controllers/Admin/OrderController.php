@@ -186,9 +186,8 @@ class OrderController extends AdminBaseController
                     ];
                     if($items->product->type =='basic'){
                         foreach ($items->option_values as $key => $value){
-                            array_push($result,(object)[
-                                $key => $value
-                            ]);
+                            $result[$key]=$value;
+
                         }
                     };
                     return $result;
