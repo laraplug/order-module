@@ -131,13 +131,13 @@ class OrderController extends AdminBaseController
     }
 // 일반 상품일 경우에만 order_items 를 추려서 정리
     function findValueByKey ($items,string $searchKey) {
+        $return="";
         foreach ($items as $key => $value){
             if(substr( $key, 0, 12 ) === $searchKey){
-                return $value;
-            }else{
-                return "";
+                $return .= $value;
             }
         }
+        return $return;
     }
     /**
      * @param Request $request
