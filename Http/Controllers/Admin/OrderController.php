@@ -169,7 +169,7 @@ class OrderController extends AdminBaseController
                     $itemVal="";
                     if($items->product->type =='basic'){
                         foreach ($items->option_values as $key => $value){
-                            $itemVal = "$key : $value ";
+                            $itemVal .= "$key : $value ";
                         }
 //                        $itemVal = $items->option_values->map(function($optionvalues) {
 //                            return $optionvalues;
