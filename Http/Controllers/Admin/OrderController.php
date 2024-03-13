@@ -180,11 +180,10 @@ class OrderController extends AdminBaseController
                     if($items->product->type =='basic'){
                         foreach ($items->option_values as $key => $value){
                             $itemKey = $key;
-                            if(strpos($key, 'student_name')){
+                            if(substr( $key, 0, 12 ) === 'student_name'){
                                 $itemKey = '원아명';
                             }
                             $result["$itemKey"]=$value;
-
                         }
                     };
                     return $result;
