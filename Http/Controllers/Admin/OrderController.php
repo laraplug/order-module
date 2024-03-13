@@ -183,7 +183,7 @@ class OrderController extends AdminBaseController
                             if(substr( $key, 0, 12 ) === 'student_name'){
                                 $itemKey = '원아명';
                             }
-                            $result["$itemKey"]=$value;
+                            $result[$itemKey]=$value;
                         }
                     };
                     return $result;
