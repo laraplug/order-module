@@ -129,8 +129,16 @@ class OrderController extends AdminBaseController
         return redirect()->route('admin.order.order.index')
             ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('order::orders.title.orders')]));
     }
-
-
+// 일반 상품일 경우에만 order_items 를 추려서 정리
+    function findValueByKey ($items,string $searchKey) {
+        foreach ($items as $key => $value){
+            if(substr( $key, 0, 12 ) === $searchKey){
+                return $value;
+            }else{
+                return "";
+            }
+        }
+    }
     /**
      * @param Request $request
      * @return Response
@@ -174,18 +182,10 @@ class OrderController extends AdminBaseController
                         '결제금액' => number_format($order->total_price),
                         '결제수단' => $order->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
                         '주문상태' => $order->status->name,
-                        '주문날짜' => $order->created_at
+                        '주문날짜' => $order->created_at,
+                        '원아명' => $this->findValueByKey($items->option_values, 'student_name'),
                     ];
-                    // 일반 상품일 경우에만 order_items 를 추려서 정리
-                    if($items->product->type =='basic'){
-                        foreach ($items->option_values as $key => $value){
-                            $itemKey = $key;
-                            if(substr( $key, 0, 12 ) === 'student_name'){
-                                $itemKey = '원아명';
-                            }
-                            $result[$itemKey]=$value;
-                        }
-                    };
+
                     return $result;
                 });
                 $sheet->fromArray($orderToExcel,null,'A3');
