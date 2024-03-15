@@ -185,7 +185,6 @@ class OrderController extends AdminBaseController
                             $optionValues = $orderItems[$i];
                             $fullPrice =  number_format($item->total_price);
                             $curPrice = number_format($optionValues->price);
-//                            if($lastI-1 === $i){
                             $exportExcel[] = [
                                 'id' => $item->id,
                                 '이름' => $optionValues->product->translations[0]->name,
@@ -198,7 +197,6 @@ class OrderController extends AdminBaseController
                                 '사이즈' => $this->findValueByKey($optionValues->option_values, 'select-size'),
                                 '원ID' => $this->findValueByKey($optionValues->option_values, 'academy_select'),
                             ];
-//                            }
                             $lastI = $lastI +1;
                         };
                     }else{
