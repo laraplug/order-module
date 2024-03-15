@@ -172,7 +172,7 @@ class OrderController extends AdminBaseController
                     'F' => 20,
                     'G' => 20,
                 ]);
-                $testDump = ['items'=>[]];
+                $testDump = [];
                 foreach ($order as $item){
                     $items = $item->items[0];
                     $orderItems = $item->items;
@@ -189,7 +189,7 @@ class OrderController extends AdminBaseController
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                         ];
-                    $testDump['items'][] = $result;
+                    $testDump[] = $result;
                 }
 //                $orderToExcel =
 //                    $order->map(function($order) use ($testDump) {
