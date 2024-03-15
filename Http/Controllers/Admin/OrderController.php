@@ -198,6 +198,7 @@ class OrderController extends AdminBaseController
                                 '원ID' => $this->findValueByKey($optionValues->option_values, 'academy_select'),
                             ];
                             $exportExcel[] = $result;
+                            $test1234 +1;
                         }
 //                        foreach ( $orderItems as $optionValues) {
 //                            $fullPrice =  number_format($item->total_price);
