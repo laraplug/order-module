@@ -171,15 +171,14 @@ class OrderController extends AdminBaseController
                     'F' => 20,
                     'G' => 20,
                 ]);
-                $orderToExcel = [];
-                $order->map(function($order) use ($orderToExcel) {
+                $orderToExcel = $order->map(function($order) {
                     $items = $order->items[0];
                     $orderItems = $order->items;
                     $type = $items->product->type;
 
                     if($type ==='basic' ){
-                        $orderItems->map(function($item) use($orderToExcel, $order){
-                            $itemResult = [
+                        return $orderItems->map(function($item) use($order){
+                            return $itemResult = [
                                 'id' => $order->id,
                                 '이름' => $order->name,
                                 '주문자명' => $order->payment_name,
@@ -191,7 +190,6 @@ class OrderController extends AdminBaseController
                                 '사이즈' => "",
                                 '원ID' => "",
                             ];
-                            $orderToExcel[] = $itemResult;
                         });
                     }else {
                         $result = [
@@ -206,8 +204,8 @@ class OrderController extends AdminBaseController
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                         ];
-                        $orderToExcel[] = $result;
                     }
+                    return $result;
 
 
 
