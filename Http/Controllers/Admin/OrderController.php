@@ -192,6 +192,7 @@ class OrderController extends AdminBaseController
                                 '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                                 '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                             ];
+                            $exportExcel[] = $result;
                         }
                     }else{
                     $result = [
