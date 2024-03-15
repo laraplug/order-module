@@ -173,7 +173,8 @@ class OrderController extends AdminBaseController
                     'G' => 20,
                 ]);
                 $testDump = ['items'=>[]];
-                $orderToExcel = $order->map(function($order) use ($testDump) {
+//                $orderToExcel =
+                    $order->map(function($order) use ($testDump) {
                     $items = $order->items[0];
                     $orderItems = $order->items;
                     $type = $items->product->type;
@@ -194,9 +195,9 @@ class OrderController extends AdminBaseController
                         return $result;
                 });
 
-                var_dump($orderToExcel);
+//                var_dump($orderToExcel);
                 var_dump($testDump);
-                $sheet->fromArray($orderToExcel,null,'A3');
+//                $sheet->fromArray($orderToExcel,null,'A3');
             });
         });
 //            ->download('xlsx');
