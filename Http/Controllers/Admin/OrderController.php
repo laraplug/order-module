@@ -172,11 +172,28 @@ class OrderController extends AdminBaseController
                     'F' => 20,
                     'G' => 20,
                 ]);
-                $testDump = [];
+                $exportExcel = [];
                 foreach ($order as $item){
                     $items = $item->items[0];
                     $orderItems = $item->items;
                     $type = $items->product->type;
+                    //basic 일 경우 상세정보 추가
+                    if($type === 'basic'){
+                        foreach ( $orderItems as $optionValues) {
+                            $result = [
+                                'id' => $item->id,
+                                '이름' => $item->name,
+                                '주문자명' => $item->payment_name,
+                                '결제금액' => number_format($item->total_price),
+                                '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
+                                '주문상태' => $item->status->name,
+                                '주문날짜' => $item->created_at,
+                                '원아명' => $this->findValueByKey($items->option_values, 'student_name'),
+                                '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
+                                '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
+                            ];
+                        }
+                    }else{
                     $result = [
                             'id' => $item->id,
                             '이름' => $item->name,
@@ -189,8 +206,10 @@ class OrderController extends AdminBaseController
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                         ];
-                    $testDump[] = $result;
+                    }
+                    $exportExcel[] = $result;
                 }
+                //기존 order To Excel 기본 아이템에 대한 취합이 필요하여 변경 2024.03.15 Ho
 //                $orderToExcel =
 //                    $order->map(function($order) use ($testDump) {
 //                    $items = $order->items[0];
@@ -215,7 +234,7 @@ class OrderController extends AdminBaseController
 
 //                var_dump($orderToExcel);
 //                var_dump($testDump);
-                $sheet->fromArray($testDump,null,'A3');
+                $sheet->fromArray($exportExcel,null,'A3');
             });
         })->download('xlsx');
         openedWindow.close();
