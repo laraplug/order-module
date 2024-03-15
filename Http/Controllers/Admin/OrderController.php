@@ -171,7 +171,8 @@ class OrderController extends AdminBaseController
                     'F' => 20,
                     'G' => 20,
                 ]);
-                $orderToExcel = $order->map(function($order) {
+                $testDump = ['items'=>[]];
+                $orderToExcel = $order->map(function($order) use ($testDump) {
                     $items = $order->items[0];
                     $orderItems = $order->items;
                     $type = $items->product->type;
@@ -187,10 +188,12 @@ class OrderController extends AdminBaseController
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                         ];
+                        $testDump = array_merge($testDump,$result);
                         return $result;
                 });
 
                 var_dump($orderToExcel);
+                var_dump($testDump);
                 $sheet->fromArray($orderToExcel,null,'A3');
             });
         });
