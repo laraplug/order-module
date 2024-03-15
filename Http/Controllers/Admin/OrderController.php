@@ -192,7 +192,7 @@ class OrderController extends AdminBaseController
                         ];
                         $testDump['items'][] = $result;
                         var_dump($testDump);
-                        return $result;
+                        return $testDump;
                 });
 
 //                var_dump($orderToExcel);
