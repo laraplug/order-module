@@ -179,7 +179,9 @@ class OrderController extends AdminBaseController
                     $type = $items->product->type;
                     //basic 일 경우 상세정보 추가
                     if($type === 'basic'){
-                        foreach ( $orderItems as $optionValues) {
+                        $itemLen = count($orderItems);
+                        for($i = 0; i < $itemLen;$i++){
+                            $optionValues = $orderItems[$i];
                             $fullPrice =  number_format($item->total_price);
                             $curPrice = number_format($optionValues->price);
                             $result = [
@@ -196,6 +198,23 @@ class OrderController extends AdminBaseController
                             ];
                             $exportExcel[] = $result;
                         }
+//                        foreach ( $orderItems as $optionValues) {
+//                            $fullPrice =  number_format($item->total_price);
+//                            $curPrice = number_format($optionValues->price);
+//                            $result = [
+//                                'id' => $item->id,
+//                                '이름' => $optionValues->product->translations[0]->name,
+//                                '주문자명' => $item->payment_name,
+//                                '결제금액' => "$curPrice($fullPrice)",
+//                                '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
+//                                '주문상태' => $item->status->name,
+//                                '주문날짜' => $item->created_at,
+//                                '원아명' => $this->findValueByKey($optionValues->option_values, 'student_name'),
+//                                '사이즈' => $this->findValueByKey($optionValues->option_values, 'select-size'),
+//                                '원ID' => $this->findValueByKey($optionValues->option_values, 'academy_select'),
+//                            ];
+//                            $exportExcel[] = $result;
+//                        }
                     }else{
                     $result = [
                             'id' => $item->id,
