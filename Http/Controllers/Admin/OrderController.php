@@ -151,7 +151,7 @@ class OrderController extends AdminBaseController
         $order = $this->order->allWithBuilder()->whereBetween('created_at',[$startDay,$endDay])->get();
         $title = '주문내역';
         Excel::create($title,function($excel) use ($order,$startDay,$endDay){
-            $excel->sheet('주문내역', function($sheet) use($ordereToExcel, $order,$startDay,$endDay){
+            $excel->sheet('주문내역', function($sheet) use($order,$startDay,$endDay){
                 $sheet->mergeCells('A1:G1');
                 $sheet->setHeight(1, 40);
                 $sheet->cell('A1', function ($cell) use ($startDay, $endDay) {
