@@ -175,24 +175,7 @@ class OrderController extends AdminBaseController
                     $items = $order->items[0];
                     $orderItems = $order->items;
                     $type = $items->product->type;
-
-                    if($type ==='basic' ){
-                         $orderItems->map(function($item) use($order){
-                            return $itemResult = [
-                                'id' => $order->id,
-                                '이름' => $order->name,
-                                '주문자명' => $order->payment_name,
-                                '결제금액' => number_format($order->total_price),
-                                '결제수단' => $order->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
-                                '주문상태' => $order->status->name,
-                                '주문날짜' => $order->created_at,
-                                '원아명' => "",
-                                '사이즈' => "",
-                                '원ID' => "",
-                            ];
-                        });
-                    }else {
-                        $result = [
+                        return $result = [
                             'id' => $order->id,
                             '이름' => $order->name,
                             '주문자명' => $order->payment_name,
@@ -204,13 +187,10 @@ class OrderController extends AdminBaseController
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                         ];
-                        return $result;
-                    }
-
                 });
 
                 var_dump($orderToExcel);
-                $sheet->fromArray($orderToExcel,null,'A3');
+//                $sheet->fromArray($orderToExcel,null,'A3');
             });
         })->download('xlsx');
         openedWindow.close();
