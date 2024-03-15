@@ -207,10 +207,13 @@ class OrderController extends AdminBaseController
 
                         });
                         $result = array_merge($result, $result2);
+                        return $result;
+                    }else {
+                        return $result;
                     }
 
 
-                    return $result;
+
                 });
                 $sheet->fromArray($orderToExcel,null,'A3');
             });
