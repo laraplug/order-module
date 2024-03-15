@@ -176,7 +176,7 @@ class OrderController extends AdminBaseController
                 foreach ($order as $item){
                     $items = $item->items[0];
                     $orderItems = $item->items;
-                    $type = $item->product->type;
+                    $type = $items->product->type;
                     $result = [
                             'id' => $item->id,
                             '이름' => $item->name,
