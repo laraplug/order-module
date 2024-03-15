@@ -175,7 +175,7 @@ class OrderController extends AdminBaseController
                     $items = $order->items[0];
                     $orderItems = $order->items;
                     $type = $items->product->type;
-                        return $result = [
+                        $result = [
                             'id' => $order->id,
                             '이름' => $order->name,
                             '주문자명' => $order->payment_name,
@@ -187,9 +187,10 @@ class OrderController extends AdminBaseController
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                         ];
+                        return $result;
                 });
 
-                var_dump($orderToExcel);
+//                var_dump($orderToExcel);
                 $sheet->fromArray($orderToExcel,null,'A3');
             });
         })->download('xlsx');
