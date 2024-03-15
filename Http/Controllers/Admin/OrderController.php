@@ -179,6 +179,7 @@ class OrderController extends AdminBaseController
                     $type = $items->product->type;
                     //basic 일 경우 상세정보 추가
                     if($type === 'basic'){
+                        $test1234 = 0;
                         $itemLen = count($orderItems);
                         for($i = 0; $i < $itemLen;$i=$i+1){
                             $optionValues = $orderItems[$i];
@@ -191,7 +192,7 @@ class OrderController extends AdminBaseController
                                 '결제금액' => "$curPrice($fullPrice)",
                                 '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
                                 '주문상태' => $item->status->name,
-                                '주문날짜' => $i,
+                                '주문날짜' => $test1234,
                                 '원아명' => $this->findValueByKey($optionValues->option_values, 'student_name'),
                                 '사이즈' => $this->findValueByKey($optionValues->option_values, 'select-size'),
                                 '원ID' => $this->findValueByKey($optionValues->option_values, 'academy_select'),
