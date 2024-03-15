@@ -190,7 +190,7 @@ class OrderController extends AdminBaseController
                         return $result;
                 });
 
-//                var_dump($orderToExcel);
+                var_dump($orderToExcel);
                 $sheet->fromArray($orderToExcel,null,'A3');
             });
         })->download('xlsx');
