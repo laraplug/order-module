@@ -172,13 +172,14 @@ class OrderController extends AdminBaseController
                     'G' => 20,
                 ]);
 
-                $orderToExcel = $order->map(function($order){
+                $orderToExcel = [];
+                    $order->map(function($order) use ($orderToExcel) {
                     $items = $order->items[0];
                     $orderItems = $order->items;
                     $type = $items->product->type;
 
                     if($type ==='basic' ){
-                        $orderItems->map(function($item) use($order){
+                        $orderItems->map(function($item) use($orderToExcel, $order){
                             $itemResult = [
                                 'id' => $order->id,
                                 '이름' => $order->name,
@@ -191,7 +192,7 @@ class OrderController extends AdminBaseController
                                 '사이즈' => "",
                                 '원ID' => "",
                             ];
-                            return $itemResult;
+                            $orderToExcel = array_merge($orderToExcel,$itemResult);
                         });
                     }else {
                         $result = [
@@ -205,9 +206,10 @@ class OrderController extends AdminBaseController
                             '원아명' => $this->findValueByKey($items->option_values, 'student_name'),
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
-//                        'itemsTest' => json_encode($itemTest)
+//
                         ];
-                        return $result;
+                        $orderToExcel = array_merge($orderToExcel,$result);
+
                     }
 
 
