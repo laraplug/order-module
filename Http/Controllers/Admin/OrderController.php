@@ -185,7 +185,7 @@ class OrderController extends AdminBaseController
                             $optionValues = $orderItems[$i];
                             $fullPrice =  number_format($item->total_price);
                             $curPrice = number_format($optionValues->price);
-                            if($lastI-1 === $i){
+//                            if($lastI-1 === $i){
                             $exportExcel[] = [
                                 'id' => $item->id,
                                 '이름' => $optionValues->product->translations[0]->name,
@@ -198,25 +198,24 @@ class OrderController extends AdminBaseController
                                 '사이즈' => $this->findValueByKey($optionValues->option_values, 'select-size'),
                                 '원ID' => $this->findValueByKey($optionValues->option_values, 'academy_select'),
                             ];
-                            }
+//                            }
                             $lastI = $lastI +1;
-                        }
+                        };
                     }else{
-                    $result = [
+                        $exportExcel[] = [
                             'id' => $item->id,
                             '이름' => $item->name,
                             '주문자명' => $item->payment_name,
                             '결제금액' => number_format($item->total_price),
                             '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
                             '주문상태' => $item->status->name,
-                            '주문날짜' => $type,
+                            '주문날짜' => $item->created_at,
                             '원아명' => $this->findValueByKey($items->option_values, 'student_name'),
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                         ];
                     }
-                    $exportExcel[] = $result;
-                }
+                };
                 //기존 order To Excel 기본 아이템에 대한 취합이 필요하여 변경 2024.03.15 Ho
 //                $orderToExcel =
 //                    $order->map(function($order) use ($testDump) {
