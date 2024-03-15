@@ -179,7 +179,6 @@ class OrderController extends AdminBaseController
                     $type = $items->product->type;
                     //basic 일 경우 상세정보 추가
                     if($type === 'basic'){
-
                         $itemLen = count($orderItems);
                         $lastI = 1;
                         for($i = 0; $i < $itemLen;$i=$i+1){
@@ -199,9 +198,10 @@ class OrderController extends AdminBaseController
                                 '사이즈' => $this->findValueByKey($optionValues->option_values, 'select-size'),
                                 '원ID' => $this->findValueByKey($optionValues->option_values, 'academy_select'),
                             ];
+                            }else {
+                                return;
                             }
                             $lastI = $lastI +1;
-
                         }
                     }else{
                     $result = [
