@@ -182,7 +182,7 @@ class OrderController extends AdminBaseController
                         foreach ( $orderItems as $optionValues) {
                             $result = [
                                 'id' => $item->id,
-                                '이름' => $item->name,
+                                '이름' => $optionValues->product->translations[0]->name,
                                 '주문자명' => $item->payment_name,
                                 '결제금액' => number_format($item->total_price),
                                 '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
