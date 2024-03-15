@@ -190,6 +190,7 @@ class OrderController extends AdminBaseController
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                         ];
                         $dump = array_push($testDump,$result);
+                        var_dump($dump);
                         $testDump = $dump;
                         return $result;
                 });
