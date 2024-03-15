@@ -151,7 +151,7 @@ class OrderController extends AdminBaseController
         $order = $this->order->allWithBuilder()->whereBetween('created_at',[$startDay,$endDay])->get();
         $title = '주문내역';
         Excel::create($title,function($excel) use ($order,$startDay,$endDay){
-            $excel->sheet('주문내역', function($sheet) use($order,$startDay,$endDay){
+            $excel->sheet('주문내역', function($sheet) use($ordereToExcel, $order,$startDay,$endDay){
                 $sheet->mergeCells('A1:G1');
                 $sheet->setHeight(1, 40);
                 $sheet->cell('A1', function ($cell) use ($startDay, $endDay) {
@@ -171,14 +171,14 @@ class OrderController extends AdminBaseController
                     'F' => 20,
                     'G' => 20,
                 ]);
-
-                $orderToExcel = $order->map(function($order){
+                $orderToExcel = [];
+                $order->map(function($order) use ($orderToExcel) {
                     $items = $order->items[0];
                     $orderItems = $order->items;
                     $type = $items->product->type;
 
                     if($type ==='basic' ){
-                        $orderItems->map(function($item) use($order){
+                        $orderItems->map(function($item) use($orderToExcel, $order){
                             $itemResult = [
                                 'id' => $order->id,
                                 '이름' => $order->name,
@@ -191,7 +191,7 @@ class OrderController extends AdminBaseController
                                 '사이즈' => "",
                                 '원ID' => "",
                             ];
-                            return $itemResult;
+                            array_push($orderToExcel,$itemResult);
                         });
                     }else {
                         $result = [
@@ -206,7 +206,7 @@ class OrderController extends AdminBaseController
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                         ];
-                        return $result;
+                        array_push($orderToExcel,$result);
                     }
 
 
