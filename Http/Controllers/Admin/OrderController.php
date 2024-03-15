@@ -180,7 +180,7 @@ class OrderController extends AdminBaseController
                     //basic 일 경우 상세정보 추가
                     if($type === 'basic'){
                         $itemLen = count($orderItems);
-                        for($i = 0; i < $itemLen;$i++){
+                        for($i = 0; $i < $itemLen;$i++){
                             $optionValues = $orderItems[$i];
                             $fullPrice =  number_format($item->total_price);
                             $curPrice = number_format($optionValues->price);
