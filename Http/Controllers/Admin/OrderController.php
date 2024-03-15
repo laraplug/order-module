@@ -181,7 +181,7 @@ class OrderController extends AdminBaseController
                             'id' => $item->id,
                             '이름' => $item->name,
                             '주문자명' => $item->payment_name,
-                            '결제금액' => number_format($order->total_price),
+                            '결제금액' => number_format($item->total_price),
                             '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
                             '주문상태' => $item->status->name,
                             '주문날짜' => $item->created_at,
