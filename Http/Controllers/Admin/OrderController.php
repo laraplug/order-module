@@ -199,9 +199,9 @@ class OrderController extends AdminBaseController
                                 '결제수단' => $order->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
                                 '주문상태' => $order->status->name,
                                 '주문날짜' => $order->created_at,
-                                '원아명' => $this->findValueByKey($item->option_values, 'student_name'),
-                                '사이즈' => $this->findValueByKey($item->option_values, 'select-size'),
-                                '원ID' => $this->findValueByKey($item->option_values, 'academy_select'),
+                                '원아명' => "",
+                                '사이즈' => "",
+                                '원ID' => "",
                             ];
                         return $itemResult;
                         });
