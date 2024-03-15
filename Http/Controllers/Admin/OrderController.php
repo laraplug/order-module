@@ -189,9 +189,8 @@ class OrderController extends AdminBaseController
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                         ];
-                        $dump = array_push($testDump,$result);
-                        var_dump($dump);
-                        $testDump = $dump;
+                        $testDump['items'][] = $result;
+                        var_dump($testDump);
                         return $result;
                 });
 
