@@ -193,6 +193,6 @@ class OrderController extends AdminBaseController
                 $sheet->fromArray($orderToExcel,null,'A3');
             });
         })->download('xlsx');
-//        openedWindow.close();
+        openedWindow.close();
     }
 }
