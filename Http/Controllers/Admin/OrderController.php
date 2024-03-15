@@ -190,7 +190,7 @@ class OrderController extends AdminBaseController
 //                        'itemsTest' => json_encode($itemTest)
                     ];
                     if($type ==='basic' ){
-                        $result = $orderItems->map(function($item) use($order){
+                        $result2 = $orderItems->map(function($item) use($order){
                             $itemResult = [
                                 'id' => $order->id,
                                 '이름' => $order->name,
@@ -203,8 +203,10 @@ class OrderController extends AdminBaseController
                                 '사이즈' => "",
                                 '원ID' => "",
                             ];
-                        return $itemResult;
+                            return $itemResult;
+
                         });
+                        $result = array_merge($result, $result2);
                     }
 
 
