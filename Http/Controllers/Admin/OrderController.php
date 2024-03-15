@@ -204,11 +204,15 @@ class OrderController extends AdminBaseController
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                         ];
+                        return $result;
                     }
-                    return $result;
+
                 });
                 $testArray = [];
                 $order->map(function($order) use ($testArray) {
+                    $items = $order->items[0];
+                    $orderItems = $order->items;
+                    $type = $items->product->type;
                     $result = [
                         'id' => $order->id,
                         '이름' => $order->name,
