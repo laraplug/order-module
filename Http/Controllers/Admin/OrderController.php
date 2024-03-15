@@ -140,6 +140,7 @@ class OrderController extends AdminBaseController
         }
         return $return;
     }
+
     /**
      * @param Request $request
      * @return Response
@@ -174,7 +175,7 @@ class OrderController extends AdminBaseController
                 $orderToExcel = $order->map(function($order){
                     $items = $order->items[0];
                     $itemTest = $order->items;
-
+                    $type = $items->product->type;
                     $result = [
                         'id' => $order->id,
                         '이름' => $order->name,
@@ -186,7 +187,8 @@ class OrderController extends AdminBaseController
                         '원아명' => $this->findValueByKey($items->option_values, 'student_name'),
                         '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                         '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
-                        'itemsTest' => json_encode($itemTest)
+//                        'itemsTest' => json_encode($itemTest)
+                        'itemsTest' => $type
                     ];
 
                     return $result;
