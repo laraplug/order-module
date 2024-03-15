@@ -177,7 +177,7 @@ class OrderController extends AdminBaseController
                     $type = $items->product->type;
 
                     if($type ==='basic' ){
-                        return $orderItems->map(function($item) use($order){
+                         $orderItems->map(function($item) use($order){
                             return $itemResult = [
                                 'id' => $order->id,
                                 '이름' => $order->name,
