@@ -193,6 +193,7 @@ class OrderController extends AdminBaseController
                             $optionValues = $orderItems[$i];
                             $fullPrice =  number_format($item->total_price);
                             $curPrice = number_format($optionValues->price);
+                            var_dump($item);
                             $exportExcel[] = [
                                 'id' => $item->id,
                                 '이름' => $this->getItemName($optionValues->option_values,$optionValues->product->translations[0]->name),
