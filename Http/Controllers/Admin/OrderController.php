@@ -174,7 +174,7 @@ class OrderController extends AdminBaseController
                 ]);
                 $exportExcel = [];
                 foreach ($order as $item){
-                    var_dump($item->items);
+                    var_dump($item->items[0]);
                     $items = $item->items[0];
                     $orderItems = $item->items;
                     $type = $items->product->type;
