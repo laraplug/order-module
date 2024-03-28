@@ -191,7 +191,6 @@ class OrderController extends AdminBaseController
 
                         for($i = 0; $i < $itemLen;$i=$i+1){
                             $optionValues = $orderItems[$i];
-                            var_dump($optionValues);
                             $fullPrice =  number_format($item->total_price);
                             $curPrice = number_format($optionValues->price);
                             $exportExcel[] = [
@@ -205,6 +204,7 @@ class OrderController extends AdminBaseController
                                 '원아명' => $this->findValueByKey($optionValues->option_values, 'student_name'),
                                 '사이즈' => $this->findValueByKey($optionValues->option_values, 'select-size'),
                                 '원ID' => $this->findValueByKey($optionValues->option_values, 'academy_select'),
+                                '수량' => $item->quantity
                             ];
                             $lastI = $lastI +1;
                         };
@@ -220,6 +220,7 @@ class OrderController extends AdminBaseController
                             '원아명' => $this->findValueByKey($items->option_values, 'student_name'),
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
+                            '수량' => $item->quantity
                         ];
                     }
                 };
