@@ -181,8 +181,10 @@ class OrderController extends AdminBaseController
                     if($type === 'basic'){
                         $itemLen = count($orderItems);
                         $lastI = 1;
+
                         for($i = 0; $i < $itemLen;$i=$i+1){
                             $optionValues = $orderItems[$i];
+                            var_dump($optionValues);
                             $fullPrice =  number_format($item->total_price);
                             $curPrice = number_format($optionValues->price);
                             $exportExcel[] = [
@@ -238,7 +240,7 @@ class OrderController extends AdminBaseController
 //                });
 
 //                var_dump($orderToExcel);
-                var_dump($exportExcel);
+//                var_dump($exportExcel);
                 $sheet->fromArray($exportExcel,null,'A3');
             });
         });
