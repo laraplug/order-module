@@ -141,6 +141,13 @@ class OrderController extends AdminBaseController
         }
         return $return;
     }
+    function getItemName ($items, string $name){
+        $return = $name;
+        foreach ($items as $key=>$value) {
+            $return .="\n $key : $value";
+        }
+        return $return;
+    }
 
     /**
      * @param Request $request
@@ -189,7 +196,7 @@ class OrderController extends AdminBaseController
                             $curPrice = number_format($optionValues->price);
                             $exportExcel[] = [
                                 'id' => $item->id,
-                                '이름' => $optionValues->product->translations[0]->name,
+                                '이름' => $this->getItemName($optionValues->option_values,$optionValues->product->translations[0]->name),
                                 '주문자명' => $item->payment_name,
                                 '결제금액' => "$curPrice($fullPrice)",
                                 '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
@@ -243,8 +250,8 @@ class OrderController extends AdminBaseController
 //                var_dump($exportExcel);
                 $sheet->fromArray($exportExcel,null,'A3');
             });
-        });
-//            ->download('xlsx');
+        })
+            ->download('xlsx');
 //        openedWindow.close();
     }
 }
