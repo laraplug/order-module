@@ -174,10 +174,10 @@ class OrderController extends AdminBaseController
                 ]);
                 $exportExcel = [];
                 foreach ($order as $item){
-                    var_dump($item->items[0]);
                     $items = $item->items[0];
                     $orderItems = $item->items;
                     $type = $items->product->type;
+                    var_dump($type);
                     //basic 일 경우 상세정보 추가
                     if($type === 'basic'){
                         $itemLen = count($orderItems);
