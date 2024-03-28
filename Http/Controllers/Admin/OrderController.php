@@ -191,7 +191,6 @@ class OrderController extends AdminBaseController
 
                         for($i = 0; $i < $itemLen;$i=$i+1){
                             $optionValues = $orderItems[$i];
-                            var_dump($optionValues);
                             $fullPrice =  number_format($item->total_price);
                             $curPrice = number_format($optionValues->price);
                             $exportExcel[] = [
