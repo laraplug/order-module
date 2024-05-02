@@ -196,7 +196,7 @@ class OrderController extends AdminBaseController
                             //UtilityMallExcel Export Test
                             $exportExcel[] = [
                                 'id' => $item->id,
-                                '이름' => $item->name == null?"":$this->getItemName($optionValues->option_values,$optionValues->product->translations[0]->name),
+                                '이름' => $item->name ?$this->getItemName($optionValues->option_values,$optionValues->product->translations[0]->name):"",
                                 '주문자명' => $item->payment_name,
                                 '결제금액' => "$curPrice($fullPrice)",
                                 '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
@@ -212,7 +212,7 @@ class OrderController extends AdminBaseController
                     }else{
                         $exportExcel[] = [
                             'id' => $item->id,
-                            '이름' => $item->name,
+                            '이름' => $item->name?$item->name:"",
                             '주문자명' => $item->payment_name,
                             '결제금액' => number_format($item->total_price),
                             '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
