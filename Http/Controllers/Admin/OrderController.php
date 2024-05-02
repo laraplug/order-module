@@ -182,7 +182,7 @@ class OrderController extends AdminBaseController
                 $exportExcel = [];
                 foreach ($order as $item){
                     $orderItems = $item->items;
-                    if(count($orderItems)){
+                    if(count($orderItems)>1){
                     $items = $item->items[0];
 
                     $type = $items->product->type;
