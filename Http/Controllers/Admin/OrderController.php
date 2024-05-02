@@ -181,8 +181,10 @@ class OrderController extends AdminBaseController
                 ]);
                 $exportExcel = [];
                 foreach ($order as $item){
-                    $items = $item->items[0];
                     $orderItems = $item->items;
+                    if(count($orderItems)){
+                    $items = $item->items[0];
+
                     $type = $items->product->type;
                     //basic 일 경우 상세정보 추가
                     if($type === 'basic'){
@@ -196,7 +198,7 @@ class OrderController extends AdminBaseController
                             //UtilityMallExcel Export Test
                             $exportExcel[] = [
                                 'id' => $item->id,
-                                '이름' => $item->name ?$this->getItemName($optionValues->option_values,$optionValues->product->translations[0]->name):"",
+                                '이름' => $this->getItemName($optionValues->option_values,$optionValues->product->translations[0]->name),
                                 '주문자명' => $item->payment_name,
                                 '결제금액' => "$curPrice($fullPrice)",
                                 '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
@@ -212,7 +214,7 @@ class OrderController extends AdminBaseController
                     }else{
                         $exportExcel[] = [
                             'id' => $item->id,
-                            '이름' => $item->name?$item->name:"",
+                            '이름' => $item->name,
                             '주문자명' => $item->payment_name,
                             '결제금액' => number_format($item->total_price),
                             '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
@@ -224,6 +226,7 @@ class OrderController extends AdminBaseController
                             '수량' => $item->quantity
                         ];
                     }
+                }
                 };
                 //기존 order To Excel 기본 아이템에 대한 취합이 필요하여 변경 2024.03.15 Ho
 //                $orderToExcel =
