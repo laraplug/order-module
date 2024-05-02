@@ -182,8 +182,7 @@ class OrderController extends AdminBaseController
                 $exportExcel = [];
                 foreach ($order as $item){
                     $orderItems = $item->items;
-                    var_dump(count($orderItems));
-                    if(count($orderItems)>1){
+                    if(count($orderItems)){
                     $items = $item->items[0];
 
                     $type = $items->product->type;
@@ -256,8 +255,8 @@ class OrderController extends AdminBaseController
 //                var_dump($exportExcel);
                 $sheet->fromArray($exportExcel,null,'A3');
             });
-        });
-//            ->download('xlsx');
+        })
+            ->download('xlsx');
 //        openedWindow.close();
     }
 }
