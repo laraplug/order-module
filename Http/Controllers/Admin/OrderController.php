@@ -222,7 +222,7 @@ class OrderController extends AdminBaseController
                                 '주문날짜' => $item->created_at,
                                 '원아명' => $this->findValueByKey($optionValues->option_values, 'student_name'),
                                 '사이즈' => $this->findValueByKey($optionValues->option_values, 'select-size'),
-                                '원ID' => $this->findValueByKey($optionValues->option_values, 'academy_select'),
+                                '원ID' => $this->getAcademyName($this->findValueByKey($optionValues->option_values, 'academy_select')),
                                 '수량' => $optionValues->quantity,
                                 '원명' => ""
 
@@ -240,7 +240,7 @@ class OrderController extends AdminBaseController
                             '주문날짜' => $item->created_at,
                             '원아명' => $this->findValueByKey($items->option_values, 'student_name'),
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
-                            '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
+                            '원ID' => $this->getAcademyName($this->findValueByKey($items->option_values, 'academy_select')),
                             '수량' => $item->quantity,
                             '원명' => $this->getAcademyName($this->findValueByKey($items->option_values, 'academy_id'))
                         ];
