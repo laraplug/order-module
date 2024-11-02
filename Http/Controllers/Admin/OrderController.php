@@ -186,7 +186,7 @@ class OrderController extends AdminBaseController
                     $items = $item->items[0];
 
                     $type = $items->product->type;
-                    var_dump($item);
+
                     //basic 일 경우 상세정보 추가
                     if($type === 'basic'){
                         $itemLen = count($orderItems);
@@ -213,6 +213,7 @@ class OrderController extends AdminBaseController
                             $lastI = $lastI +1;
                         };
                     }else{
+                        var_dump($item);
                         $exportExcel[] = [
                             'id' => $item->id,
                             '이름' => $item->name,
