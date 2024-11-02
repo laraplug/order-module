@@ -242,8 +242,7 @@ class OrderController extends AdminBaseController
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                             '수량' => $item->quantity,
-                            '원명' => $this->getAcademyName($this->findValueByKey($items->option_values, 'academy_id'));
-
+                            '원명' => $this->getAcademyName($this->findValueByKey($items->option_values, 'academy_id'))
                         ];
                     }
                 }
