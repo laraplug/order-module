@@ -208,12 +208,13 @@ class OrderController extends AdminBaseController
                                 '원아명' => $this->findValueByKey($optionValues->option_values, 'student_name'),
                                 '사이즈' => $this->findValueByKey($optionValues->option_values, 'select-size'),
                                 '원ID' => $this->findValueByKey($optionValues->option_values, 'academy_select'),
-                                '수량' => $optionValues->quantity
+                                '수량' => $optionValues->quantity,
+                                '원명' => ""
+
                             ];
                             $lastI = $lastI +1;
                         };
                     }else{
-                        var_dump($item);
                         $exportExcel[] = [
                             'id' => $item->id,
                             '이름' => $item->name,
@@ -225,7 +226,8 @@ class OrderController extends AdminBaseController
                             '원아명' => $this->findValueByKey($items->option_values, 'student_name'),
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
-                            '수량' => $item->quantity
+                            '수량' => $item->quantity,
+                            '원명' => $this->findValueByKey($items->option_values, 'academy_id')
                         ];
                     }
                 }
