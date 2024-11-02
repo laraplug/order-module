@@ -148,8 +148,23 @@ class OrderController extends AdminBaseController
         }
         return $return;
     }
-
-    /**
+    function getAcademyName ($academy_id)
+    {
+        switch ($academy_id){
+            case 1 : return "gdbn";
+            case 2 : return  "제니스키즈";
+            case 3 : return "자이키즈";
+            case 4 : return  "자이영재";
+            case 5 : return  "아이파크";
+            case 6 : return  "별두리";
+            case 7 : return  "푸르지오";
+            case 8 : return  "EnRe";
+            case 9 : return  "테스트";
+            case 10 : return  "원광";
+            case 11 : return  "상떼빌키즈";
+            default : return "";
+        }
+    }    /**
      * @param Request $request
      * @return Response
      */
@@ -227,7 +242,8 @@ class OrderController extends AdminBaseController
                             '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
                             '원ID' => $this->findValueByKey($items->option_values, 'academy_select'),
                             '수량' => $item->quantity,
-                            '원명' => $this->findValueByKey($items->option_values, 'academy_id')
+                            '원명' => $this->getAcademyName($this->findValueByKey($items->option_values, 'academy_id'));
+
                         ];
                     }
                 }
