@@ -196,6 +196,7 @@ class OrderController extends AdminBaseController
                 ]);
                 $exportExcel = [];
                 if(!empty($order)) {
+                    echo $order;
                     foreach ($order as $ord) {
                         $orderItems = $ord->items;
 
