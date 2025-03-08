@@ -230,11 +230,11 @@ class OrderController extends AdminBaseController
                                     '결제수단' => $ord->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
                                     '주문상태' => $ord->status->name,
                                     '주문날짜' => $ord->created_at,
-                                    '원아명' => $this->findValueByKey($first->option_values, 'student_name'),
-                                    '사이즈' => $this->findValueByKey($first->option_values, 'select-size'),
-                                    '원ID' => $this->getAcademyName($this->findValueByKey($first->option_values, 'academy_select')),
+                                    '원아명' => $this->findValueByKey($ord->option_values, 'student_name'),
+                                    '사이즈' => $this->findValueByKey($ord->option_values, 'select-size'),
+                                    '원ID' => $this->getAcademyName($this->findValueByKey($ord->option_values, 'academy_select')),
                                     '수량' => $ord->quantity,
-                                    '원명' => $this->getAcademyName($this->findValueByKey($first->option_values, 'academy_id'))
+                                    '원명' => $this->getAcademyName($this->findValueByKey($ord->option_values, 'academy_id'))
                                 ];
                             }
                         }
