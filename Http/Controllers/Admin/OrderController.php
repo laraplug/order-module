@@ -196,9 +196,9 @@ class OrderController extends AdminBaseController
                 ]);
                 $exportExcel = [];
                 if(!empty($order)) {
-                    echo $order;
                     foreach ($order as $ord) {
                         $orderItems = $ord->items;
+                        echo $orderItems;
 
                         if(count($orderItems)) {
                             // 상품 중 하위항목 제외하고 Loop 돌면서 엑셀에 입력
