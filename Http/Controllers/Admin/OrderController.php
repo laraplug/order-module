@@ -198,7 +198,9 @@ class OrderController extends AdminBaseController
                 foreach ($order as $ord) {
                     $orderItems = $ord->items;
 
-                    if(count($orderItems)) {
+                    echo $orderItems;
+
+                    if(count($orderItems) && !empty($orderItems)) {
                         // 상품 중 하위항목 제외하고 Loop 돌면서 엑셀에 입력
                         foreach ($orderItems as $item) {
                             // basic 일 경우 상세정보 추가
