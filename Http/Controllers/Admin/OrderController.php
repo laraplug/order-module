@@ -198,8 +198,6 @@ class OrderController extends AdminBaseController
                 foreach ($order as $ord) {
                     $orderItems = $ord->items;
 
-                    echo $orderItems;
-
                     if(count($orderItems)) {
                         // 상품 중 하위항목 제외하고 Loop 돌면서 엑셀에 입력
                         $orderItems->each(function ($item) {
@@ -239,7 +237,7 @@ class OrderController extends AdminBaseController
                                     '원명' => $this->getAcademyName($this->findValueByKey($ord->option_values, 'academy_id'))
                                 ];
                             }
-                        }
+                        });
                     }
                 };
                 //기존 order To Excel 기본 아이템에 대한 취합이 필요하여 변경 2024.03.15 Ho
