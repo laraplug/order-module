@@ -205,7 +205,7 @@ class OrderController extends AdminBaseController
 
                         if(count($orderItems)) {
                             // 상품 중 하위항목 제외하고 Loop 돌면서 엑셀에 입력
-                            $orderItems->each(function ($item) use($ord, $exportExcel) {
+                            $orderItems->each(function ($item) use($ord, &$exportExcel) {
                                 echo $item;
                                 // basic 일 경우 상세정보 추가
                                 if($item->product->type === 'basic') {
