@@ -145,8 +145,10 @@ class OrderController extends AdminBaseController
     }
     function getItemName ($items, string $name){
         $return = $name;
-        foreach ($items as $key=>$value) {
-            $return .="\n $key : $value";
+        if(is_array($items) || is_object($items)) {
+            foreach ($items as $key=>$value) {
+                $return .="\n $key : $value";
+            }
         }
         return $return;
     }
