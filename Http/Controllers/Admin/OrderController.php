@@ -195,12 +195,12 @@ class OrderController extends AdminBaseController
                     'G' => 20,
                 ]);
                 $exportExcel = [];
-                foreach ($order as &$ord) {
+                foreach ($order as $ord) {
                     $orderItems = $ord->items;
 
                     if(count($orderItems)) {
                         // 상품 중 하위항목 제외하고 Loop 돌면서 엑셀에 입력
-                        $orderItems->each(function ($item) {
+                        $orderItems->each(function ($item) use($ord) {
                             // basic 일 경우 상세정보 추가
                             if($item->product->type === 'basic') {
                                 $fullPrice =  number_format($ord->total_price);
