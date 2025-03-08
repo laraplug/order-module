@@ -246,7 +246,7 @@ class OrderController extends AdminBaseController
                         }
                     };
                 }
-                echo  $exportExcel;
+                echo  $exportExcel->length;
                 //기존 order To Excel 기본 아이템에 대한 취합이 필요하여 변경 2024.03.15 Ho
 //                $orderToExcel =
 //                    $order->map(function($order) use ($testDump) {
