@@ -195,57 +195,50 @@ class OrderController extends AdminBaseController
                     'G' => 20,
                 ]);
                 $exportExcel = [];
-                foreach ($order as $item){
-                    $orderItems = $item->items;
-                    if(count($orderItems)){
-                    $items = $item->items[0];
+                foreach ($order as $ord) {
+                    $orderItems = $ord->items;
 
-                    $type = $items->product->type;
+                    if(count($orderItems)) {
+                        // 상품 중 하위항목 제외하고 Loop 돌면서 엑셀에 입력
+                        foreach ($orderItems->where('parent_id', 0) as $item) {
+                            // basic 일 경우 상세정보 추가
+                            if($item->product->type === 'basic') {
+                                $fullPrice =  number_format($ord->total_price);
+                                $curPrice = number_format($item->price);
 
-                    //basic 일 경우 상세정보 추가
-                    if($type === 'basic'){
-                        $itemLen = count($orderItems);
-                        $lastI = 1;
-
-                        for($i = 0; $i < $itemLen;$i=$i+1){
-                            $optionValues = $orderItems[$i];
-                            $fullPrice =  number_format($item->total_price);
-                            $curPrice = number_format($optionValues->price);
-                            //UtilityMallExcel Export Test
-                            $exportExcel[] = [
-                                'id' => $item->id,
-                                '이름' => $this->getItemName($optionValues->option_values,$optionValues->product->translations[0]->name),
-                                '주문자명' => $item->payment_name,
-                                '결제금액' => "$curPrice($fullPrice)",
-                                '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
-                                '주문상태' => $item->status->name,
-                                '주문날짜' => $item->created_at,
-                                '원아명' => $this->findValueByKey($optionValues->option_values, 'student_name'),
-                                '사이즈' => $this->findValueByKey($optionValues->option_values, 'select-size'),
-                                '원ID' => $this->getAcademyName($this->findValueByKey($optionValues->option_values, 'academy_select')),
-                                '수량' => $optionValues->quantity,
-                                '원명' => ""
-
-                            ];
-                            $lastI = $lastI +1;
-                        };
-                    }else{
-                        $exportExcel[] = [
-                            'id' => $item->id,
-                            '이름' => $item->name,
-                            '주문자명' => $item->payment_name,
-                            '결제금액' => number_format($item->total_price),
-                            '결제수단' => $item->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
-                            '주문상태' => $item->status->name,
-                            '주문날짜' => $item->created_at,
-                            '원아명' => $this->findValueByKey($items->option_values, 'student_name'),
-                            '사이즈' => $this->findValueByKey($items->option_values, 'select-size'),
-                            '원ID' => $this->getAcademyName($this->findValueByKey($items->option_values, 'academy_select')),
-                            '수량' => $item->quantity,
-                            '원명' => $this->getAcademyName($this->findValueByKey($items->option_values, 'academy_id'))
-                        ];
+                                // UtilityMallExcel Export Test
+                                $exportExcel[] = [
+                                    'id' => $ord->id,
+                                    '이름' => $this->getItemName($item->option_values, $item->product->translations[0]->name),
+                                    '주문자명' => $ord->payment_name,
+                                    '결제금액' => "$curPrice($fullPrice)",
+                                    '결제수단' => $ord->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
+                                    '주문상태' => $ord->status->name,
+                                    '주문날짜' => $ord->created_at,
+                                    '원아명' => $this->findValueByKey($item->option_values, 'student_name'),
+                                    '사이즈' => $this->findValueByKey($item->option_values, 'select-size'),
+                                    '원ID' => $this->getAcademyName($this->findValueByKey($item->option_values, 'academy_select')),
+                                    '수량' => $item->quantity,
+                                    '원명' => ""
+                                ];
+                            } else {
+                                $exportExcel[] = [
+                                    'id' => $ord->id,
+                                    '이름' => $ord->name,
+                                    '주문자명' => $ord->payment_name,
+                                    '결제금액' => number_format($ord->total_price),
+                                    '결제수단' => $ord->payment_method_id == 'direct_bank' ? '무통장 입금' : '카드',
+                                    '주문상태' => $ord->status->name,
+                                    '주문날짜' => $ord->created_at,
+                                    '원아명' => $this->findValueByKey($first->option_values, 'student_name'),
+                                    '사이즈' => $this->findValueByKey($first->option_values, 'select-size'),
+                                    '원ID' => $this->getAcademyName($this->findValueByKey($first->option_values, 'academy_select')),
+                                    '수량' => $ord->quantity,
+                                    '원명' => $this->getAcademyName($this->findValueByKey($first->option_values, 'academy_id'))
+                                ];
+                            }
+                        }
                     }
-                }
                 };
                 //기존 order To Excel 기본 아이템에 대한 취합이 필요하여 변경 2024.03.15 Ho
 //                $orderToExcel =
