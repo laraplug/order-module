@@ -200,7 +200,7 @@ class OrderController extends AdminBaseController
 
                     if(count($orderItems)) {
                         // 상품 중 하위항목 제외하고 Loop 돌면서 엑셀에 입력
-                        foreach ($orderItems->where('parent_id', 0) as $item) {
+                        foreach ($orderItems as $item) {
                             // basic 일 경우 상세정보 추가
                             if($item->product->type === 'basic') {
                                 $fullPrice =  number_format($ord->total_price);
