@@ -131,12 +131,14 @@ class OrderController extends AdminBaseController
             ->withSuccess(trans('core::core.messages.resource deleted', ['name' => trans('order::orders.title.orders')]));
     }
 // 일반 상품일 경우에만 order_items 를 추려서 정리
-    function findValueByKey ($items,string $searchKey) {
+    function findValueByKey ($items, string $searchKey) {
         $return="";
         $length = strlen( $searchKey );
-        foreach ($items as $key => $value){
-            if(substr( $key, 0, $length ) === $searchKey){
-                $return .= $value;
+        if(is_array($items) || is_object($items)) {
+            foreach ($items as $key => $value){
+                if(substr( $key, 0, $length ) === $searchKey){
+                    $return .= $value;
+                }
             }
         }
         return $return;
