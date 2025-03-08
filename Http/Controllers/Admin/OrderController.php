@@ -206,6 +206,7 @@ class OrderController extends AdminBaseController
                         if(count($orderItems)) {
                             // 상품 중 하위항목 제외하고 Loop 돌면서 엑셀에 입력
                             $orderItems->each(function ($item) use($ord, &$exportExcel) {
+                                if($item->parent_id === 0) {
                                 // basic 일 경우 상세정보 추가
                                 if($item->product->type === 'basic') {
                                     $fullPrice =  number_format($ord->total_price);
@@ -241,7 +242,7 @@ class OrderController extends AdminBaseController
                                         '수량' => $ord->quantity,
                                         '원명' => $this->getAcademyName($this->findValueByKey($ord->option_values, 'academy_id'))
                                     ];
-                                }
+                                }}
                             });
                         }
                     };
