@@ -208,7 +208,7 @@ class OrderController extends AdminBaseController
                             $orderItems->each(function ($item) use($ord, &$exportExcel) {
                                 if($item->parent_id === 0) {
                                 // basic 일 경우 상세정보 추가
-                                if($item->product->type === 'basic') {
+                                if($item->product->type === 'basic' || $item->product->type === 'diplomabook' || $item->product->type === 'graduatebook') {
                                     $fullPrice =  number_format($ord->total_price);
                                     $curPrice = number_format($item->price);
 
