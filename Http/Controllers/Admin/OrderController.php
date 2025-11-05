@@ -225,7 +225,7 @@ class OrderController extends AdminBaseController
                                         '사이즈' => $this->findValueByKey($item->option_values, 'select-size'),
                                         '원ID' => $this->getAcademyName($this->findValueByKey($item->option_values, 'academy_select')),
                                         '수량' => $item->quantity,
-                                        '원명' => ""
+                                        '졸업앨범 원명' => $this->getAcademyName($this->findValueByKey($item->option_values, 'academy_id'))
                                     ];
                                 } else {
                                     $exportExcel[] = [
